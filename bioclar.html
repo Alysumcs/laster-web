@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="sk" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Čistiarne odpadových vôd BIOCLAR | LASTER</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- GSAP & ScrollTrigger -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#0ea5e9',
+                        secondary: '#10b981',
+                        dark: '#0f172a',
+                    },
+                    backgroundImage: {
+                        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Vlastný kurzor */
+        body { cursor: none; }
+        .custom-cursor {
+            position: fixed; top: 0; left: 0; width: 20px; height: 20px;
+            border: 2px solid #10b981; border-radius: 50%; pointer-events: none; z-index: 9999;
+            transform: translate(-50%, -50%); transition: width 0.2s, height 0.2s, background-color 0.2s; mix-blend-mode: difference;
+        }
+        .custom-cursor-dot {
+            position: fixed; top: 0; left: 0; width: 6px; height: 6px;
+            background-color: #10b981; border-radius: 50%; pointer-events: none; z-index: 10000;
+            transform: translate(-50%, -50%);
+        }
+        .cursor-hover .custom-cursor {
+            width: 50px; height: 50px; background-color: rgba(16, 185, 129, 0.2); border-color: transparent;
+        }
+        .gsap-hidden { visibility: hidden; }
+        .magnetic-btn { display: inline-block; }
+        
+        /* Tooltipy pre SVG */
+        .hotspot-tooltip {
+            opacity: 0; visibility: hidden; transform: translateY(10px); transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .hotspot:hover .hotspot-tooltip { opacity: 1; visibility: visible; transform: translateY(0); }
+        
+        /* Animácia pre aeráciu v SVG */
+        @keyframes bubbleRise {
+            0% { transform: translateY(0) scale(1); opacity: 0; }
+            50% { opacity: 0.8; }
+            100% { transform: translateY(-80px) scale(1.5); opacity: 0; }
+        }
+        .svg-bubble { animation: bubbleRise 2s infinite ease-in; fill: #ffffff; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased overflow-x-hidden">
+
+    <div class="custom-cursor hidden md:block"></div>
+    <div class="custom-cursor-dot hidden md:block"></div>
+    <div id="progress-bar" class="fixed top-0 left-0 h-1 bg-gradient-to-r from-secondary to-primary z-[60] w-0"></div>
+
+    <!-- Navigácia -->
+    <nav class="bg-white/80 backdrop-blur-md shadow-sm fixed w-full z-50 top-0 border-b border-slate-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20">
+                <div class="flex items-center">
+                    <a href="index.html" class="flex items-center gap-2 interactive-hover">
+                        <i data-lucide="waves" class="text-secondary h-8 w-8"></i>
+                        <span class="font-bold text-2xl tracking-wider text-dark">LASTER</span>
+                    </a>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="index.html#domov" class="text-slate-600 hover:text-secondary transition font-medium interactive-hover">Domov</a>
+                    <a href="nadrze.html" class="text-slate-600 hover:text-secondary transition font-medium interactive-hover">Nádrže</a>
+                    <a href="sachty.html" class="text-slate-600 hover:text-secondary transition font-medium interactive-hover">Šachty</a>
+                    <a href="#" class="text-secondary transition font-bold interactive-hover">Čistiarne BIOCLAR</a>
+                    <div class="magnetic-btn">
+                        <a href="index.html#kontakt" class="bg-dark text-white px-6 py-2.5 rounded-full hover:bg-slate-800 transition font-medium block">Kontakt</a>
+                    </div>
+                </div>
+                <div class="flex items-center md:hidden">
+                    <button id="mobile-menu-btn" class="text-slate-600 hover:text-secondary focus:outline-none">
+                        <i data-lucide="menu" class="h-6 w-6"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Mobilné Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t absolute w-full shadow-lg">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="index.html" class="block px-3 py-2 text-slate-600 hover:bg-slate-50 hover:text-secondary rounded-md">Domov</a>
+                <a href="nadrze.html" class="block px-3 py-2 text-slate-600 hover:bg-slate-50 hover:text-secondary rounded-md">Nádrže</a>
+                <a href="sachty.html" class="block px-3 py-2 text-slate-600 hover:bg-slate-50 hover:text-secondary rounded-md">Šachty</a>
+                <a href="#" class="block px-3 py-2 text-secondary font-bold hover:bg-slate-50 rounded-md">Čistiarne BIOCLAR (Aktuálne)</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header s Eko dizajnom -->
+    <section class="pt-32 pb-16 bg-emerald-950 text-white relative overflow-hidden">
+        <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(#10b981 1px, transparent 1px); background-size: 30px 30px;"></div>
+        <div class="absolute inset-0 bg-gradient-to-t from-emerald-950 to-transparent"></div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center gsap-hidden page-header-content">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-800/50 backdrop-blur-sm text-emerald-300 font-bold text-sm mb-6 border border-emerald-700">
+                <i data-lucide="leaf" class="h-4 w-4"></i> Ekologické riešenie
+            </div>
+            <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold mb-6">Čistiarne odpadových vôd BIOCLAR</h1>
+            <p class="text-lg text-emerald-100/80 max-w-3xl mx-auto">
+                Vysoko účinná biologická technológia pre rodinné domy, chaty aj menšie prevádzky. Zabezpečuje spoľahlivé čistenie s minimálnymi nákladmi, bez zápachu a v súlade so všetkými normami EÚ.
+            </p>
+        </div>
+    </section>
+
+    <!-- 3D Rozloženie (Prierez BIOCLAR) -->
+    <section class="py-24 bg-white overflow-hidden relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                
+                <!-- Textová časť pre 3D rez -->
+                <div class="order-2 lg:order-1 product-text gsap-hidden">
+                    <h2 class="text-3xl lg:text-4xl font-bold text-dark mb-6">Ako funguje technológia BIOCLAR?</h2>
+                    <p class="text-slate-600 mb-8 text-lg">
+                        Čistiarne BIOCLAR pracujú na princípe mechanicko-biologického čistenia. Celý proces je ukrytý v jednom kompaktnom bielom polypropylénovom monobloku s dômyselne rozdelenými komorami.
+                    </p>
+                    
+                    <div class="space-y-6 relative border-l-2 border-emerald-100 pl-6 ml-3">
+                        <div class="relative">
+                            <span class="absolute -left-[35px] top-1 w-6 h-6 rounded-full bg-emerald-100 border-2 border-white flex items-center justify-center text-xs font-bold text-secondary">1</span>
+                            <h4 class="font-bold text-dark text-lg">Mechanické predčistenie a Denitrifikácia</h4>
+                            <p class="text-slate-600 mt-1">Splašky vtekajú do hrubého sita, kde sa zachytia pevné nečistoty. V tejto fáze nastáva prvé narušenie organických látok za neprítomnosti kyslíka.</p>
+                        </div>
+                        <div class="relative">
+                            <span class="absolute -left-[35px] top-1 w-6 h-6 rounded-full bg-emerald-100 border-2 border-white flex items-center justify-center text-xs font-bold text-secondary">2</span>
+                            <h4 class="font-bold text-dark text-lg">Nitrifikačná (Aktivačná) zóna</h4>
+                            <p class="text-slate-600 mt-1">Srdce čistiarne. Pomocou jemnobublinného prevzdušňovacieho elementu na dne sa voda intenzívne okysličuje, čo podporuje rast mikroorganizmov (kalu), ktoré vodu čistia.</p>
+                        </div>
+                        <div class="relative">
+                            <span class="absolute -left-[35px] top-1 w-6 h-6 rounded-full bg-emerald-100 border-2 border-white flex items-center justify-center text-xs font-bold text-secondary">3</span>
+                            <h4 class="font-bold text-dark text-lg">Dosadzovacia zóna a odtok</h4>
+                            <p class="text-slate-600 mt-1">Voda odteká do stredového lievika. Tu čistá voda stúpa nahor a odteká do recipientu, zatiaľ čo vyčistený ťažší kal klesá späť na dno na ďalšie spracovanie.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3D SVG Ilustrácia prierezu čističky (Založené na tvojom PNG s hnedou a modrou vodou) -->
+                <div class="order-1 lg:order-2 tank-card relative w-full h-[400px] lg:h-[500px] flex justify-center items-center group interactive-hover">
+                    <svg viewBox="0 0 400 450" class="w-full h-full drop-shadow-2xl transition-transform duration-500 group-hover:scale-105" preserveAspectRatio="xMidYMid meet">
+                        <!-- Zadná (neodrezaná) vonkajšia stena nádrže (Biela / Svetlosivá) -->
+                        <path d="M 50 150 L 50 350 A 150 60 0 0 0 350 350 L 350 150 A 150 60 0 0 1 50 150 Z" fill="#e2e8f0"/>
+                        <!-- Vnútorný zadný plášť -->
+                        <path d="M 60 150 L 60 340 A 140 55 0 0 0 340 340 L 340 150 A 140 55 0 0 1 60 150 Z" fill="#cbd5e1"/>
+
+                        <!-- Rez nádržou (Predná otvorená časť) -->
+                        <!-- Ľavá hrana rezu -->
+                        <polygon points="50,150 60,150 60,340 50,350" fill="#f8fafc"/>
+                        <!-- Pravá hrana rezu -->
+                        <polygon points="340,150 350,150 350,350 340,340" fill="#94a3b8"/>
+
+                        <!-- Stredový hranol (Zberač) -->
+                        <polygon points="180,180 220,180 220,380 180,380" fill="#e2e8f0"/>
+                        <polygon points="220,180 240,160 240,360 220,380" fill="#cbd5e1"/>
+                        <!-- Mriežka vo vnútri stredového hranola -->
+                        <polygon points="180,180 220,180 240,160 200,160" fill="#64748b"/>
+
+                        <!-- VNÚTORNÉ DELIACE STENY (Vyžarujúce zo stredu) -->
+                        <!-- Ľavá vnútorná stena -->
+                        <polygon points="60,180 180,180 180,380 60,340" fill="#f1f5f9"/>
+                        <polygon points="60,150 180,150 180,180 60,180" fill="#e2e8f0"/>
+                        <!-- Výrez na ľavej stene -->
+                        <polygon points="80,190 140,190 140,200 80,200" fill="#475569"/>
+
+                        <!-- Pravá vnútorná stena -->
+                        <polygon points="220,180 340,180 340,340 220,380" fill="#cbd5e1"/>
+                        <polygon points="220,150 340,150 340,180 220,180" fill="#f8fafc"/>
+
+                        <!-- Zadná vnútorná stena -->
+                        <polygon points="240,160 300,105 300,300 240,360" fill="#94a3b8"/>
+                        
+                        <!-- POTRUBIA / TECHNIKA -->
+                        <!-- Prívodná rúra (biela) -->
+                        <path d="M 220 165 L 180 185 L 175 180 L 215 160 Z" fill="#ffffff"/>
+                        <!-- Káble/Hadice na pravej strane (ako z obrázku) -->
+                        <path d="M 300 130 C 310 100, 330 110, 330 140" fill="none" stroke="#f8fafc" stroke-width="4"/>
+                        <path d="M 290 135 C 310 110, 320 120, 320 145" fill="none" stroke="#e2e8f0" stroke-width="4"/>
+
+                        <!-- KVAPALINY (Hnedá aktivačná a modrá dosadzovacia zóna) -->
+                        
+                        <!-- Hnedá zóna (Vpredu dole vľavo) -->
+                        <path d="M 60 220 C 100 240, 140 240, 180 220 L 180 380 L 60 340 Z" fill="#452710" opacity="0.85"/>
+                        <!-- Hladina hnedej zóny -->
+                        <path d="M 60 220 C 100 250, 140 240, 180 220 C 140 200, 100 200, 60 220 Z" fill="#5c3415" opacity="0.9"/>
+                        
+                        <!-- Animované bublinky v hnedej zóne (Aktivácia) -->
+                        <g>
+                            <circle cx="100" cy="330" r="3" class="svg-bubble" style="animation-delay: 0s;"/>
+                            <circle cx="120" cy="350" r="4" class="svg-bubble" style="animation-delay: 0.5s;"/>
+                            <circle cx="140" cy="320" r="2" class="svg-bubble" style="animation-delay: 1.2s;"/>
+                            <circle cx="160" cy="360" r="3" class="svg-bubble" style="animation-delay: 0.8s;"/>
+                            <circle cx="110" cy="310" r="4" class="svg-bubble" style="animation-delay: 1.5s;"/>
+                            <circle cx="150" cy="340" r="2" class="svg-bubble" style="animation-delay: 0.2s;"/>
+                        </g>
+
+                        <!-- Modrá zóna (Vzadu vľavo) -->
+                        <path d="M 60 170 C 100 190, 140 180, 180 160 L 180 180 C 140 200, 100 200, 60 180 Z" fill="#0369a1" opacity="0.9"/>
+                        <path d="M 60 170 C 100 140, 140 130, 180 160 C 140 180, 100 190, 60 170 Z" fill="#0284c7" opacity="0.9"/>
+
+                        <!-- Hnedá zóna (Vpredu vpravo) -->
+                        <path d="M 220 220 C 260 240, 300 240, 340 220 L 340 340 L 220 380 Z" fill="#452710" opacity="0.85"/>
+                        <path d="M 220 220 C 260 200, 300 200, 340 220 C 300 240, 260 250, 220 220 Z" fill="#5c3415" opacity="0.9"/>
+
+                        <!-- Časť polovičného veka -->
+                        <!-- Rez veka -->
+                        <path d="M 50 150 C 120 100, 280 100, 350 150 L 340 150 C 270 110, 130 110, 60 150 Z" fill="#ffffff"/>
+                    </svg>
+
+                    <!-- Interaktívne body -->
+                    <!-- Bod 1: Aktivačná zóna -->
+                    <div class="hotspot absolute top-[60%] left-[30%] z-30 cursor-pointer">
+                        <div class="relative flex items-center justify-center w-8 h-8">
+                            <span class="absolute inline-flex h-full w-full rounded-full bg-amber-500 opacity-75 animate-ping"></span>
+                            <span class="relative inline-flex rounded-full h-4 w-4 bg-amber-500 border-2 border-white"></span>
+                        </div>
+                        <div class="hotspot-tooltip absolute top-10 left-0 w-48 bg-white p-3 rounded-xl shadow-xl border border-slate-100 text-sm z-40">
+                            <p class="font-bold text-dark mb-1">Aktivačná komora</p>
+                            <p class="text-slate-500 text-xs">Biologický rozklad pomocou vločiek kalu a kyslíka.</p>
+                        </div>
+                    </div>
+
+                    <!-- Bod 2: Dosadzovacia (Modrá) zóna -->
+                    <div class="hotspot absolute top-[30%] left-[25%] z-30 cursor-pointer">
+                        <div class="relative flex items-center justify-center w-8 h-8">
+                            <span class="absolute inline-flex h-full w-full rounded-full bg-primary opacity-75 animate-ping" style="animation-delay: 0.5s;"></span>
+                            <span class="relative inline-flex rounded-full h-4 w-4 bg-primary border-2 border-white"></span>
+                        </div>
+                        <div class="hotspot-tooltip absolute top-10 left-0 w-48 bg-white p-3 rounded-xl shadow-xl border border-slate-100 text-sm z-40">
+                            <p class="font-bold text-dark mb-1">Čistá voda</p>
+                            <p class="text-slate-500 text-xs">Usadený kal sa oddeľuje a priezračná voda odteká von.</p>
+                        </div>
+                    </div>
+
+                    <!-- Bod 3: Technika -->
+                    <div class="hotspot absolute top-[25%] right-[25%] z-30 cursor-pointer">
+                        <div class="relative flex items-center justify-center w-8 h-8">
+                            <span class="absolute inline-flex h-full w-full rounded-full bg-slate-400 opacity-75 animate-ping" style="animation-delay: 1s;"></span>
+                            <span class="relative inline-flex rounded-full h-4 w-4 bg-slate-400 border-2 border-white"></span>
+                        </div>
+                        <div class="hotspot-tooltip absolute top-10 right-0 w-48 bg-white p-3 rounded-xl shadow-xl border border-slate-100 text-sm z-40">
+                            <p class="font-bold text-dark mb-1">Dúchadlo a riadenie</p>
+                            <p class="text-slate-500 text-xs">Vháňa kyslík a plynulo reguluje celý čistiaci proces.</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Top View SVG Section (Pohľad zhora na prázdnu nádrž) -->
+    <section class="py-20 bg-slate-50 border-y border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center flex-col-reverse lg:flex-row">
+                
+                <div id="animated-bioclar-top" class="relative w-full h-[350px] flex justify-center items-center group interactive-hover gsap-hidden">
+                    <!-- Izometrický pohľad zhora na prázdnu bielu nádrž s pridanými triedami pre animáciu -->
+                    <svg viewBox="0 0 300 350" class="w-full h-full drop-shadow-xl transition-transform duration-500 group-hover:scale-105" preserveAspectRatio="xMidYMid meet">
+                        <!-- Vonkajší plášť -->
+                        <path d="M 50 150 L 50 280 A 100 40 0 0 0 250 280 L 250 150 Z" fill="#e2e8f0" class="bioclar-outer"/>
+                        <ellipse cx="150" cy="150" rx="100" ry="40" fill="#cbd5e1" class="bioclar-outer"/>
+                        <ellipse cx="150" cy="150" rx="95" ry="38" fill="#f8fafc" class="bioclar-outer"/>
+                        
+                        <!-- Stredový otvor -->
+                        <polygon points="140,140 160,140 160,260 140,260" fill="#94a3b8" class="bioclar-center"/>
+                        <polygon points="140,140 160,140 170,130 150,130" fill="#475569" class="bioclar-center"/>
+
+                        <!-- Vnútorné steny usporiadané lúčovito -->
+                        <line x1="140" y1="140" x2="60" y2="135" stroke="#e2e8f0" stroke-width="4" class="bioclar-inner-wall"/>
+                        <line x1="160" y1="140" x2="240" y2="135" stroke="#e2e8f0" stroke-width="4" class="bioclar-inner-wall"/>
+                        <line x1="140" y1="260" x2="80" y2="175" stroke="#e2e8f0" stroke-width="4" class="bioclar-inner-wall"/>
+                        <line x1="160" y1="260" x2="220" y2="175" stroke="#e2e8f0" stroke-width="4" class="bioclar-inner-wall"/>
+
+                        <!-- Potrubia v strede -->
+                        <path d="M 155 135 L 190 120 M 150 135 L 150 90" stroke="#ffffff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" class="bioclar-pipes"/>
+                        <circle cx="150" cy="80" r="10" fill="#e2e8f0" class="bioclar-pipes"/>
+                        <circle cx="150" cy="80" r="6" fill="#f8fafc" class="bioclar-pipes"/>
+                    </svg>
+
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-50/50 to-transparent pointer-events-none"></div>
+                </div>
+
+                <div class="product-text gsap-hidden">
+                    <h2 class="text-3xl font-bold text-dark mb-4">Pevnosť a kvalita materiálu</h2>
+                    <p class="text-slate-600 mb-6 leading-relaxed">
+                        Nádrže čistiarní BIOCLAR sú vyrábané z hrubostenného, 100% zváraného bieleho polypropylénu (PP). 
+                        Vnútorné rozdeľovacie priečky nielenže vytvárajú jednotlivé technologické zóny, ale zároveň slúžia ako <strong>pevnostné výstuhy</strong> celej konštrukcie.
+                    </p>
+                    <ul class="space-y-3">
+                        <li class="flex items-center gap-3 text-slate-700"><i data-lucide="check-circle" class="text-secondary h-5 w-5"></i> Monolitická samonosná konštrukcia</li>
+                        <li class="flex items-center gap-3 text-slate-700"><i data-lucide="check-circle" class="text-secondary h-5 w-5"></i> Nízka hmotnosť uľahčuje inštaláciu bez žeriavu</li>
+                        <li class="flex items-center gap-3 text-slate-700"><i data-lucide="check-circle" class="text-secondary h-5 w-5"></i> Bez rizika korózie a presakovania do pôdy</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Prečo si vybrať BIOCLAR (Kartičky) -->
+    <section class="py-24 bg-white relative z-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 gsap-scroll-fade gsap-hidden">
+                <h2 class="text-sm font-bold text-secondary tracking-widest uppercase mb-2">Výhody technológie</h2>
+                <h3 class="text-3xl md:text-4xl font-bold text-dark">Prečo sú čistiarne BIOCLAR najlepšou voľbou?</h3>
+            </div>
+            <div class="feature-cards-container grid grid-cols-1 md:grid-cols-4 gap-6">
+                <!-- Výhoda 1 -->
+                <div class="feature-card gsap-hidden p-6 rounded-3xl bg-emerald-50/50 border border-emerald-100 hover:shadow-xl hover:-translate-y-2 transition-all duration-300 interactive-hover group">
+                    <div class="w-14 h-14 bg-white shadow-sm border border-emerald-100 text-secondary rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <i data-lucide="activity" class="h-7 w-7"></i>
+                    </div>
+                    <h3 class="font-bold mb-2 text-dark">Účinnosť nad 95%</h3>
+                    <p class="text-slate-600 text-sm">Vysoká čistota odtokovej vody umožňuje jej bezpečné vypúšťanie do trativodu, či využitie na závlahu drevín.</p>
+                </div>
+                <!-- Výhoda 2 -->
+                <div class="feature-card gsap-hidden p-6 rounded-3xl bg-emerald-50/50 border border-emerald-100 hover:shadow-xl hover:-translate-y-2 transition-all duration-300 interactive-hover group">
+                    <div class="w-14 h-14 bg-white shadow-sm border border-emerald-100 text-secondary rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <i data-lucide="volume-x" class="h-7 w-7"></i>
+                    </div>
+                    <h3 class="font-bold mb-2 text-dark">Žiadny zápach a hluk</h3>
+                    <p class="text-slate-600 text-sm">Technológia aeróbneho čistenia eliminuje hnilobné procesy, takže okolie čistiarne nepáchne a chod membránového dúchadla je mimoriadne tichý.</p>
+                </div>
+                <!-- Výhoda 3 -->
+                <div class="feature-card gsap-hidden p-6 rounded-3xl bg-emerald-50/50 border border-emerald-100 hover:shadow-xl hover:-translate-y-2 transition-all duration-300 interactive-hover group">
+                    <div class="w-14 h-14 bg-white shadow-sm border border-emerald-100 text-secondary rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <i data-lucide="piggy-bank" class="h-7 w-7"></i>
+                    </div>
+                    <h3 class="font-bold mb-2 text-dark">Obrovská úspora financií</h3>
+                    <p class="text-slate-600 text-sm">Investícia sa vám rýchlo vráti vďaka tomu, že odpadá nutnosť neustáleho a drahého vyťahovania klasickej žumpy fekálnym vozom.</p>
+                </div>
+                <!-- Výhoda 4 -->
+                <div class="feature-card gsap-hidden p-6 rounded-3xl bg-emerald-50/50 border border-emerald-100 hover:shadow-xl hover:-translate-y-2 transition-all duration-300 interactive-hover group">
+                    <div class="w-14 h-14 bg-white shadow-sm border border-emerald-100 text-secondary rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <i data-lucide="file-check-2" class="h-7 w-7"></i>
+                    </div>
+                    <h3 class="font-bold mb-2 text-dark">Certifikácia a normy</h3>
+                    <p class="text-slate-600 text-sm">Čistiarne spĺňajú najprísnejšie normy Európskej Únie a bez problémov vám prejdú kolaudáciou stavebného úradu.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to action -->
+    <section class="py-20 bg-dark text-white text-center relative overflow-hidden">
+        <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(#10b981 1px, transparent 1px); background-size: 30px 30px;"></div>
+        <div class="max-w-4xl mx-auto px-4 relative z-10 gsap-scroll-fade gsap-hidden">
+            <h2 class="text-3xl md:text-5xl font-bold mb-6">Zabudnite na pravidelný vývoz žumpy.</h2>
+            <p class="text-xl text-slate-300 mb-10">Zavolajte nám. Na základe počtu osôb vo vašej domácnosti vám poradíme vhodný typ čistiarne a naceníme ho.</p>
+            <div class="flex flex-wrap justify-center gap-4">
+                <div class="magnetic-btn">
+                    <a href="index.html#kontakt" class="bg-secondary text-dark px-8 py-4 rounded-full font-bold shadow-xl shadow-secondary/20 hover:bg-emerald-400 transition-colors flex items-center gap-2 interactive-hover">
+                        Získať ponuku <i data-lucide="arrow-right" class="h-5 w-5"></i>
+                    </a>
+                </div>
+                <div class="magnetic-btn">
+                    <a href="tel:+421911414621" class="bg-white/10 border border-white/30 text-white px-8 py-4 rounded-full font-bold hover:bg-white/20 transition-colors flex items-center gap-2 interactive-hover">
+                        <i data-lucide="phone" class="h-5 w-5"></i> +421 911 414 621
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-slate-950 text-slate-400 py-10 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="flex items-center gap-2 text-white">
+                <i data-lucide="waves" class="h-6 w-6 text-secondary"></i>
+                <span class="font-bold text-xl tracking-wider">LASTER</span>
+            </div>
+            <p class="text-sm text-center md:text-left">
+                &copy; 2026 LASTER spol. s r.o. Všetky práva vyhradené.<br>
+            </p>
+        </div>
+    </footer>
+
+    <!-- JS Skripty -->
+    <script>
+        lucide.createIcons();
+
+        // Mobilné menu
+        const btn = document.getElementById('mobile-menu-btn');
+        const menu = document.getElementById('mobile-menu');
+        btn.addEventListener('click', () => menu.classList.toggle('hidden'));
+        menu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => menu.classList.add('hidden'));
+        });
+
+        // Kurzor
+        const cursor = document.querySelector('.custom-cursor');
+        const cursorDot = document.querySelector('.custom-cursor-dot');
+        const hoverElements = document.querySelectorAll('.interactive-hover, a, button, .hotspot');
+
+        if(window.innerWidth > 768) {
+            document.addEventListener('mousemove', (e) => {
+                gsap.to(cursor, { x: e.clientX, y: e.clientY, duration: 0.15, ease: "power2.out" });
+                gsap.set(cursorDot, { x: e.clientX, y: e.clientY });
+            });
+            hoverElements.forEach(el => {
+                el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
+                el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
+            });
+        }
+
+        // Magnetické tlačidlá
+        const magneticBtns = document.querySelectorAll('.magnetic-btn');
+        magneticBtns.forEach(btn => {
+            btn.addEventListener('mousemove', (e) => {
+                const rect = btn.getBoundingClientRect();
+                const x = e.clientX - rect.left - rect.width / 2;
+                const y = e.clientY - rect.top - rect.height / 2;
+                gsap.to(btn, { x: x * 0.3, y: y * 0.3, duration: 0.3, ease: "power2.out" });
+            });
+            btn.addEventListener('mouseleave', () => {
+                gsap.to(btn, { x: 0, y: 0, duration: 0.7, ease: "elastic.out(1, 0.3)" });
+            });
+        });
+
+        // GSAP Animácie
+        document.addEventListener("DOMContentLoaded", () => {
+            gsap.registerPlugin(ScrollTrigger);
+
+            gsap.to("#progress-bar", { scrollTrigger: { trigger: "body", start: "top top", end: "bottom bottom", scrub: 1 }, width: "100%", ease: "none" });
+
+            gsap.set(".gsap-hidden", { autoAlpha: 1, visibility: "visible" });
+
+            // Hlavička
+            gsap.from(".page-header-content > *", { y: 30, opacity: 0, duration: 0.8, stagger: 0.2, ease: "power3.out", delay: 0.2 });
+
+            // Produktové texty a prvé SVG
+            gsap.utils.toArray('.product-text, .tank-card').forEach((row) => {
+                gsap.from(row, {
+                    scrollTrigger: { trigger: row, start: "top 85%" },
+                    y: 40, opacity: 0, duration: 0.8, ease: "power3.out"
+                });
+            });
+
+            // Špeciálna animácia pre zloženie pohľadu zhora na BIOCLAR
+            const topViewTl = gsap.timeline({
+                scrollTrigger: {
+                    trigger: "#animated-bioclar-top",
+                    start: "top 80%"
+                }
+            });
+            
+            topViewTl.from("#animated-bioclar-top", { y: 40, opacity: 0, duration: 0.6, ease: "power3.out" })
+                     .from(".bioclar-outer", { scale: 0.9, opacity: 0, transformOrigin: "center", duration: 0.6, ease: "back.out(1.2)" })
+                     .from(".bioclar-center", { scaleY: 0, opacity: 0, transformOrigin: "center", duration: 0.5, ease: "back.out(1.5)" }, "-=0.3")
+                     .from(".bioclar-inner-wall", { opacity: 0, duration: 0.3, stagger: 0.1 }, "-=0.2")
+                     .from(".bioclar-pipes", { opacity: 0, y: -20, duration: 0.4, stagger: 0.1, ease: "bounce.out" }, "-=0.2");
+
+            // Kartičky výhod
+            gsap.from(".feature-card", {
+                scrollTrigger: { trigger: ".feature-cards-container", start: "top 85%" },
+                y: 50, opacity: 0, duration: 0.8, stagger: 0.15, ease: "power3.out"
+            });
+
+            // Ostatné
+            gsap.utils.toArray('.gsap-scroll-fade').forEach((element) => {
+                gsap.from(element, {
+                    scrollTrigger: { trigger: element, start: "top 85%" },
+                    y: 40, opacity: 0, duration: 0.8, ease: "power2.out"
+                });
+            });
+        });
+    </script>
+</body>
+</html>

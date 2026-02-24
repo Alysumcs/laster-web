@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="sk" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plastové šachty (Vodomerné, revízne) | LASTER</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- GSAP & ScrollTrigger -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#0ea5e9',
+                        secondary: '#10b981',
+                        dark: '#0f172a',
+                    },
+                    backgroundImage: {
+                        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Vlastný kurzor prevzatý z hlavnej stránky */
+        body { cursor: none; }
+        .custom-cursor {
+            position: fixed; top: 0; left: 0; width: 20px; height: 20px;
+            border: 2px solid #0ea5e9; border-radius: 50%; pointer-events: none; z-index: 9999;
+            transform: translate(-50%, -50%); transition: width 0.2s, height 0.2s, background-color 0.2s; mix-blend-mode: difference;
+        }
+        .custom-cursor-dot {
+            position: fixed; top: 0; left: 0; width: 6px; height: 6px;
+            background-color: #0ea5e9; border-radius: 50%; pointer-events: none; z-index: 10000;
+            transform: translate(-50%, -50%);
+        }
+        .cursor-hover .custom-cursor {
+            width: 50px; height: 50px; background-color: rgba(14, 165, 233, 0.2); border-color: transparent;
+        }
+        .gsap-hidden { visibility: hidden; }
+        .magnetic-btn { display: inline-block; }
+
+        /* Animácie pre Blueprint SVG (Príprava na mieru) */
+        @keyframes spin-slow { 100% { transform: rotate(360deg); } }
+        .animate-spin-slow { animation: spin-slow 8s linear infinite; }
+        
+        @keyframes flow-fast { 0% { stroke-dashoffset: 40; } 100% { stroke-dashoffset: 0; } }
+        .animate-flow-fast { animation: flow-fast 1s linear infinite; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased overflow-x-hidden">
+
+    <div class="custom-cursor hidden md:block"></div>
+    <div class="custom-cursor-dot hidden md:block"></div>
+    <div id="progress-bar" class="fixed top-0 left-0 h-1 bg-gradient-to-r from-primary to-secondary z-[60] w-0"></div>
+
+    <!-- Navigácia -->
+    <nav class="bg-white/80 backdrop-blur-md shadow-sm fixed w-full z-50 top-0 border-b border-slate-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20">
+                <div class="flex items-center">
+                    <a href="index.html" class="flex items-center gap-2 interactive-hover">
+                        <i data-lucide="waves" class="text-primary h-8 w-8"></i>
+                        <span class="font-bold text-2xl tracking-wider text-dark">LASTER</span>
+                    </a>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="index.html#domov" class="text-slate-600 hover:text-primary transition font-medium interactive-hover">Domov</a>
+                    <a href="nadrze.html" class="text-slate-600 hover:text-primary transition font-medium interactive-hover">Nádrže</a>
+                    <a href="#" class="text-primary transition font-bold interactive-hover">Šachty</a>
+                    <a href="index.html#bioclar" class="text-slate-600 hover:text-secondary transition font-medium interactive-hover">Čistiarne BIOCLAR</a>
+                    <div class="magnetic-btn">
+                        <a href="index.html#kontakt" class="bg-dark text-white px-6 py-2.5 rounded-full hover:bg-slate-800 transition font-medium block">Kontakt</a>
+                    </div>
+                </div>
+                <div class="flex items-center md:hidden">
+                    <button id="mobile-menu-btn" class="text-slate-600 hover:text-primary focus:outline-none">
+                        <i data-lucide="menu" class="h-6 w-6"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Mobilné Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t absolute w-full shadow-lg">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="index.html" class="block px-3 py-2 text-slate-600 hover:bg-slate-50 hover:text-primary rounded-md">Domov</a>
+                <a href="nadrze.html" class="block px-3 py-2 text-slate-600 hover:bg-slate-50 hover:text-primary rounded-md">Nádrže</a>
+                <a href="#" class="block px-3 py-2 text-primary font-bold hover:bg-slate-50 rounded-md">Šachty (Aktuálne)</a>
+                <a href="index.html#bioclar" class="block px-3 py-2 text-slate-600 hover:bg-slate-50 hover:text-primary rounded-md">Čistiarne BIOCLAR</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="pt-32 pb-16 bg-dark text-white relative overflow-hidden">
+        <div class="absolute inset-0 opacity-20">
+            <img src="https://images.unsplash.com/photo-1585704032915-c3400ca199e7?auto=format&fit=crop&q=80&w=1920" alt="Vodovodná inštalácia" class="w-full h-full object-cover">
+        </div>
+        <div class="absolute inset-0 bg-gradient-to-t from-dark to-transparent"></div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center gsap-hidden page-header-content">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 backdrop-blur-sm text-blue-300 font-bold text-sm mb-6 border border-white/20">
+                <i data-lucide="layers" class="h-4 w-4"></i> Prvotriedny polypropylén
+            </div>
+            <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold mb-6">Plastové šachty</h1>
+            <p class="text-lg text-slate-300 max-w-2xl mx-auto">
+                Vodomerné, revízne, závlahové a prečerpávacie šachty. Zaručená 100% vodotesnosť, dlhá životnosť a jednoduchá manipulácia vďaka nízkej hmotnosti.
+            </p>
+        </div>
+    </section>
+
+    <!-- Typy šácht (SVG Sekcia) -->
+    <section class="py-20 bg-slate-50 border-b border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 gsap-scroll-fade gsap-hidden">
+                <h2 class="text-sm font-bold text-primary tracking-widest uppercase mb-2">Rozdelenie a využitie</h2>
+                <h3 class="text-3xl md:text-4xl font-bold text-dark">Vyberte si šachtu podľa potreby</h3>
+                <p class="text-slate-600 max-w-2xl mx-auto mt-4">Vyrábame rôzne typy šácht, ktoré zabezpečia dokonalú ochranu vašej vodárenskej techniky pod zemou.</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
+                
+                <!-- 1. Valcová vodomerná šachta -->
+                <div class="tank-card bg-white p-8 rounded-[2rem] shadow-lg border border-slate-100 flex flex-col items-center text-center gsap-hidden interactive-hover group">
+                    <div class="w-full h-64 mb-6 relative flex items-center justify-center">
+                        <!-- Realistická Valcová vodomerná šachta s komínom a prechodmi -->
+                        <svg viewBox="0 0 300 350" class="w-full h-full drop-shadow-2xl transition-transform duration-500 group-hover:scale-105" preserveAspectRatio="xMidYMid meet">
+                            <defs>
+                                <linearGradient id="vodoGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                                    <stop offset="0%" stop-color="#121822"/>
+                                    <stop offset="15%" stop-color="#1f2937"/>
+                                    <stop offset="35%" stop-color="#2d3b4e"/>
+                                    <stop offset="60%" stop-color="#171e29"/>
+                                    <stop offset="85%" stop-color="#1f2a3a"/>
+                                    <stop offset="100%" stop-color="#0b0f15"/>
+                                </linearGradient>
+                            </defs>
+                            <!-- Podstava / Tieň -->
+                            <ellipse cx="150" cy="300" rx="100" ry="18" fill="#000000" opacity="0.7"/>
+                            
+                            <!-- Hlavný valec šachty -->
+                            <path d="M 50 120 L 50 300 A 100 18 0 0 0 250 300 L 250 120 Z" fill="url(#vodoGrad)"/>
+                            
+                            <!-- Vrchná plocha hlavného valca -->
+                            <ellipse cx="150" cy="120" rx="105" ry="16" fill="#141a24"/>
+                            <ellipse cx="150" cy="120" rx="100" ry="14" fill="#1c2533"/>
+                            
+                            <!-- Výstupy na potrubie v spodnej časti -->
+                            <ellipse cx="80" cy="270" rx="12" ry="18" fill="#0f141d"/>
+                            <ellipse cx="80" cy="270" rx="8" ry="14" fill="#05070a"/>
+                            <ellipse cx="220" cy="270" rx="12" ry="18" fill="#0f141d"/>
+                            <ellipse cx="220" cy="270" rx="8" ry="14" fill="#05070a"/>
+
+                            <!-- Komín (mierne posunutý dozadu a do stredu) -->
+                            <path d="M 120 40 L 120 115 A 40 8 0 0 0 200 115 L 200 40 Z" fill="url(#vodoGrad)"/>
+                            
+                            <!-- Veko komína (širšie ako komín) -->
+                            <path d="M 115 30 L 115 45 A 45 10 0 0 0 205 45 L 205 30 Z" fill="#0b0f15"/>
+                            <ellipse cx="160" cy="30" rx="45" ry="10" fill="#1f2937"/>
+                            <ellipse cx="160" cy="28" rx="43" ry="9" fill="#2d3b4e" opacity="0.3"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold text-dark mb-3">Vodomerná šachta (Valcová)</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed mb-6">
+                        Štandardný typ určený pre osadenie vodomeru a pripojenie vodovodnej prípojky pod úrovňou terénu. Tvar valca prirodzene a efektívne odoláva tlaku okolitej zeminy.
+                    </p>
+                    <div class="mt-auto bg-blue-50 text-primary px-4 py-2 rounded-full text-sm font-bold">
+                        Najžiadanejšia
+                    </div>
+                </div>
+
+                <!-- 2. Hranatá šachta -->
+                <div class="tank-card bg-white p-8 rounded-[2rem] shadow-lg border border-slate-100 flex flex-col items-center text-center gsap-hidden interactive-hover group relative overflow-hidden">
+                    <div class="w-full h-64 mb-6 relative flex items-center justify-center">
+                        <!-- Realistická Izometrická Hranatá šachta s prekríženými výstuhami -->
+                        <svg viewBox="-20 -20 340 340" class="w-full h-full drop-shadow-2xl transition-transform duration-500 group-hover:scale-105" preserveAspectRatio="xMidYMid meet">
+                            <!-- Základná doska pre obetónovanie -->
+                            <polygon points="150,290 10,220 150,150 290,220" fill="#0a0d14"/>
+
+                            <!-- Ľavá stena -->
+                            <polygon points="150,275 25,210 25,90 150,155" fill="#161e2b"/>
+                            <!-- Pravá stena -->
+                            <polygon points="150,275 275,210 275,90 150,155" fill="#0f151e"/>
+                            <!-- Vrchná doska s miernym presahom -->
+                            <polygon points="150,160 20,90 150,25 280,90" fill="#1b2433"/>
+                            <polygon points="150,155 25,90 150,30 275,90" fill="#243045"/>
+
+                            <!-- X Výstuhy Ľavá stena (vytvárajú 3D dojem) -->
+                            <g stroke-linecap="butt">
+                                <!-- Úhlopriečka 1 -->
+                                <line x1="25" y1="90" x2="150" y2="275" stroke="#0f151e" stroke-width="14"/>
+                                <line x1="25" y1="90" x2="150" y2="275" stroke="#243045" stroke-width="5"/>
+                                <!-- Úhlopriečka 2 -->
+                                <line x1="25" y1="210" x2="150" y2="155" stroke="#0f151e" stroke-width="14"/>
+                                <line x1="25" y1="210" x2="150" y2="155" stroke="#243045" stroke-width="5"/>
+                            </g>
+
+                            <!-- X Výstuhy Pravá stena -->
+                            <g stroke-linecap="butt">
+                                <!-- Úhlopriečka 1 -->
+                                <line x1="150" y1="155" x2="275" y2="210" stroke="#0a0d14" stroke-width="14"/>
+                                <line x1="150" y1="155" x2="275" y2="210" stroke="#1b2433" stroke-width="5"/>
+                                <!-- Úhlopriečka 2 -->
+                                <line x1="150" y1="275" x2="275" y2="90" stroke="#0a0d14" stroke-width="14"/>
+                                <line x1="150" y1="275" x2="275" y2="90" stroke="#1b2433" stroke-width="5"/>
+                            </g>
+
+                            <!-- Vrchné vertikálne rebrá (Mriežka) -->
+                            <!-- Rovnobežné s ľavou hranou -->
+                            <polygon points="65,70 190,130 190,115 65,55" fill="#141a24"/>
+                            <polygon points="105,50 230,110 230,95 105,35" fill="#141a24"/>
+                            <!-- Rovnobežné s pravou hranou -->
+                            <polygon points="190,50 65,110 65,95 190,35" fill="#1b2433"/>
+                            <polygon points="230,70 105,130 105,115 230,55" fill="#1b2433"/>
+
+                            <!-- Komín s vekom vzadu vpravo -->
+                            <!-- Telo komína -->
+                            <path d="M 190 40 L 190 85 A 25 10 0 0 0 240 85 L 240 40 Z" fill="#0d111a"/>
+                            <!-- Veko komína (Mierne previsnuté) -->
+                            <path d="M 187 30 L 187 40 A 28 12 0 0 0 243 40 L 243 30 Z" fill="#161e2b"/>
+                            <ellipse cx="215" cy="30" rx="28" ry="12" fill="#243045"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold text-dark mb-3">Hranatá šachta (Na obetónovanie)</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed mb-6">
+                        Ideálna pre špecifické technologické zariadenia (napr. bazénová technika) alebo pre inštaláciu do stiesnených priestorov. Pevné vonkajšie výstuhy slúžia na obetónovanie.
+                    </p>
+                    <div class="mt-auto bg-slate-100 text-slate-700 px-4 py-2 rounded-full text-sm font-bold">
+                        Pre technológie
+                    </div>
+                </div>
+
+                <!-- 3. Závlahová / Prečerpávacia šachta -->
+                <div class="tank-card bg-white p-8 rounded-[2rem] shadow-lg border border-slate-100 flex flex-col items-center text-center gsap-hidden interactive-hover group">
+                    <div class="w-full h-64 mb-6 relative flex items-center justify-center">
+                        <!-- Realistická nižšia valcová šachta so širokým vekom -->
+                        <svg viewBox="0 0 300 300" class="w-full h-full drop-shadow-2xl transition-transform duration-500 group-hover:scale-105" preserveAspectRatio="xMidYMid meet">
+                            <defs>
+                                <linearGradient id="zavlGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                                    <stop offset="0%" stop-color="#141b27"/>
+                                    <stop offset="30%" stop-color="#2a374a"/>
+                                    <stop offset="50%" stop-color="#171e29"/>
+                                    <stop offset="85%" stop-color="#1f283b"/>
+                                    <stop offset="100%" stop-color="#0b1018"/>
+                                </linearGradient>
+                            </defs>
+                            <!-- Tieň a spodná obruba -->
+                            <ellipse cx="150" cy="260" rx="115" ry="18" fill="#000000" opacity="0.6"/>
+                            <ellipse cx="150" cy="258" rx="110" ry="16" fill="#121822"/>
+
+                            <!-- Hlavné telo -->
+                            <path d="M 40 100 L 40 258 A 110 16 0 0 0 260 258 L 260 100 Z" fill="url(#zavlGrad)"/>
+                            
+                            <!-- Široké prečnievajúce veko -->
+                            <!-- Spodná hrana veka -->
+                            <path d="M 30 85 L 30 105 A 120 20 0 0 0 270 105 L 270 85 Z" fill="#0d121c"/>
+                            <!-- Vrchná plocha veka -->
+                            <ellipse cx="150" cy="85" rx="120" ry="20" fill="#1c2536"/>
+                            <!-- Odlesk na veku -->
+                            <ellipse cx="150" cy="83" rx="118" ry="19" fill="#2d3b4e" opacity="0.4"/>
+                            
+                            <!-- Jemná línia detailu z lomu (ako na fotke) -->
+                            <path d="M 30 85 Q 150 115 270 85" fill="none" stroke="#374860" stroke-width="1.5" opacity="0.5"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold text-dark mb-3">Závlahová / Prečerpávacia</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed mb-6">
+                        Špeciálne upravená plastová šachta so širokým pochôdznym vekom. Výborne slúži na uloženie ventilov závlahy, filtrov alebo prečerpávacej kanalizačnej techniky.
+                    </p>
+                    <div class="mt-auto bg-emerald-50 text-secondary px-4 py-2 rounded-full text-sm font-bold">
+                        Ľahký prístup
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Detailný popis / Vlastnosti -->
+    <section class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <div class="gsap-scroll-fade gsap-hidden order-2 lg:order-1">
+                    <h2 class="text-3xl font-bold text-dark mb-6">Prečo si zvoliť plastovú šachtu?</h2>
+                    <p class="text-slate-600 mb-6 text-lg">
+                        Klasické betónové šachty sú ťažké, náročné na inštaláciu a časom môžu podliehať korózii betónu alebo presakovaniu. Plastové šachty LASTER z <strong>extrúzne zváraného polypropylénu (PP)</strong> tieto problémy úplne eliminujú.
+                    </p>
+                    <div class="space-y-6">
+                        <div class="flex gap-4">
+                            <div class="bg-blue-50 w-12 h-12 rounded-full flex items-center justify-center text-primary shrink-0">
+                                <i data-lucide="droplets" class="h-6 w-6"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-dark text-xl">Absolútna vodotesnosť</h4>
+                                <p class="text-slate-600 mt-1">Plast a kvalitné zvary zabezpečujú, že do šachty neprenikne podzemná voda a technika ostane v suchu.</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-4">
+                            <div class="bg-blue-50 w-12 h-12 rounded-full flex items-center justify-center text-primary shrink-0">
+                                <i data-lucide="feather" class="h-6 w-6"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-dark text-xl">Nízka hmotnosť a rýchla montáž</h4>
+                                <p class="text-slate-600 mt-1">Manipulácia so šachtou je veľmi jednoduchá. Vo väčšine prípadov nepotrebujete na osadenie žiadnu ťažkú techniku (žeriav).</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-4">
+                            <div class="bg-blue-50 w-12 h-12 rounded-full flex items-center justify-center text-primary shrink-0">
+                                <i data-lucide="settings" class="h-6 w-6"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-dark text-xl">Modifikovateľnosť</h4>
+                                <p class="text-slate-600 mt-1">Vieme vám na mieru pripraviť otvory, prestupy na rúry (rôzne priemery) presne podľa projektu vašej vodovodnej prípojky.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="order-1 lg:order-2 gsap-scroll-fade gsap-hidden">
+                    <div class="rounded-3xl overflow-hidden shadow-2xl relative group interactive-hover h-[400px] lg:h-[500px] bg-slate-900 border-4 border-slate-800 flex items-center justify-center">
+                        
+                        <!-- Technický Blueprint SVG pre Prípravu na mieru -->
+                        <svg viewBox="0 0 400 400" class="w-full h-full drop-shadow-2xl">
+                            <defs>
+                                <pattern id="blueprint-grid" width="40" height="40" patternUnits="userSpaceOnUse">
+                                    <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#1e293b" stroke-width="1"/>
+                                </pattern>
+                                <linearGradient id="blueprintGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                                    <stop offset="0%" stop-color="#0f172a" />
+                                    <stop offset="100%" stop-color="#020617" />
+                                </linearGradient>
+                            </defs>
+                            <rect width="100%" height="100%" fill="url(#blueprintGrad)" />
+                            <rect width="100%" height="100%" fill="url(#blueprint-grid)" />
+                            
+                            <!-- Obrys Šachty -->
+                            <path d="M 100 140 L 100 320 A 100 20 0 0 0 300 320 L 300 140 Z" fill="#1e293b" stroke="#3b82f6" stroke-width="2" opacity="0.6"/>
+                            <ellipse cx="200" cy="140" rx="100" ry="20" fill="#0f172a" stroke="#3b82f6" stroke-width="2" opacity="0.8"/>
+                            
+                            <!-- Komín -->
+                            <path d="M 160 70 L 160 140 A 40 8 0 0 0 240 140 L 240 70 Z" fill="#1e293b" stroke="#3b82f6" stroke-width="2" opacity="0.6"/>
+                            <ellipse cx="200" cy="70" rx="40" ry="8" fill="#0f172a" stroke="#3b82f6" stroke-width="2" opacity="0.8"/>
+                            
+                            <!-- Animované Zameriavače pre Nátok (Vľavo vyššie) -->
+                            <g transform="translate(100, 220)">
+                                <circle cx="0" cy="0" r="25" fill="#10b981" opacity="0.15" class="animate-pulse" />
+                                <circle cx="0" cy="0" r="20" fill="none" stroke="#10b981" stroke-width="2" stroke-dasharray="8 4" class="animate-spin-slow" />
+                                <line x1="-35" y1="0" x2="35" y2="0" stroke="#10b981" stroke-width="1.5" opacity="0.6"/>
+                                <line x1="0" y1="-35" x2="0" y2="35" stroke="#10b981" stroke-width="1.5" opacity="0.6"/>
+                                <circle cx="0" cy="0" r="4" fill="#10b981" />
+                            </g>
+                            
+                            <!-- Animované Zameriavače pre Výtok (Vpravo nižšie) -->
+                            <g transform="translate(300, 280)">
+                                <circle cx="0" cy="0" r="25" fill="#10b981" opacity="0.15" class="animate-pulse" />
+                                <circle cx="0" cy="0" r="20" fill="none" stroke="#10b981" stroke-width="2" stroke-dasharray="8 4" class="animate-spin-slow" />
+                                <line x1="-35" y1="0" x2="35" y2="0" stroke="#10b981" stroke-width="1.5" opacity="0.6"/>
+                                <line x1="0" y1="-35" x2="0" y2="35" stroke="#10b981" stroke-width="1.5" opacity="0.6"/>
+                                <circle cx="0" cy="0" r="4" fill="#10b981" />
+                            </g>
+
+                            <!-- Animovaný tok (Potrubie) -->
+                            <path d="M 10 220 L 100 220" stroke="#3b82f6" stroke-width="6" stroke-dasharray="12 8" class="animate-flow-fast" opacity="0.8"/>
+                            <path d="M 300 280 L 390 280" stroke="#3b82f6" stroke-width="6" stroke-dasharray="12 8" class="animate-flow-fast" opacity="0.8"/>
+
+                            <!-- Blueprint Technické texty -->
+                            <text x="25" y="190" fill="#10b981" font-family="monospace" font-size="13" font-weight="bold">INLET_VAR_H</text>
+                            <text x="260" y="330" fill="#10b981" font-family="monospace" font-size="13" font-weight="bold">OUTLET_VAR_H</text>
+                            <text x="245" y="65" fill="#3b82f6" font-family="monospace" font-size="11" opacity="0.7">Ø 600mm</text>
+                        </svg>
+
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-transparent z-10 pointer-events-none"></div>
+
+                        <div class="absolute bottom-6 left-6 right-6 bg-white/95 backdrop-blur-sm p-5 rounded-2xl shadow-xl z-20 border border-slate-100">
+                            <p class="font-bold text-dark flex items-center gap-2">
+                                <i data-lucide="info" class="text-primary h-5 w-5"></i>
+                                Príprava na mieru zadarmo
+                            </p>
+                            <p class="text-sm text-slate-600 mt-1">Pri výrobe zohľadníme presnú polohu nátoku a výtoku.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to action -->
+    <section class="py-20 bg-primary text-white text-center relative overflow-hidden">
+        <div class="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-white to-transparent"></div>
+        <div class="max-w-4xl mx-auto px-4 relative z-10 gsap-scroll-fade gsap-hidden">
+            <h2 class="text-3xl md:text-5xl font-bold mb-6">Máte záujem o plastovú šachtu?</h2>
+            <p class="text-xl text-blue-100 mb-10">Zavolajte nám alebo napíšte. Poradíme vám so správnym výberom a obratom pošleme cenovú ponuku.</p>
+            <div class="flex flex-wrap justify-center gap-4">
+                <div class="magnetic-btn">
+                    <a href="index.html#kontakt" class="bg-dark text-white px-8 py-4 rounded-full font-bold shadow-xl hover:bg-slate-800 transition-colors flex items-center gap-2 interactive-hover">
+                        Prejsť na kontakt <i data-lucide="arrow-right" class="h-5 w-5"></i>
+                    </a>
+                </div>
+                <div class="magnetic-btn">
+                    <a href="tel:+421911414621" class="bg-white/10 border border-white/30 text-white px-8 py-4 rounded-full font-bold hover:bg-white/20 transition-colors flex items-center gap-2 interactive-hover">
+                        <i data-lucide="phone" class="h-5 w-5"></i> +421 911 414 621
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-slate-400 py-10 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="flex items-center gap-2 text-white">
+                <i data-lucide="waves" class="h-6 w-6 text-primary"></i>
+                <span class="font-bold text-xl tracking-wider">LASTER</span>
+            </div>
+            <p class="text-sm text-center md:text-left">
+                &copy; 2026 LASTER spol. s r.o. Všetky práva vyhradené.<br>
+            </p>
+        </div>
+    </footer>
+
+    <!-- JS Skripty -->
+    <script>
+        lucide.createIcons();
+
+        // Mobilné menu
+        const btn = document.getElementById('mobile-menu-btn');
+        const menu = document.getElementById('mobile-menu');
+        btn.addEventListener('click', () => menu.classList.toggle('hidden'));
+        menu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => menu.classList.add('hidden'));
+        });
+
+        // Kurzor
+        const cursor = document.querySelector('.custom-cursor');
+        const cursorDot = document.querySelector('.custom-cursor-dot');
+        const hoverElements = document.querySelectorAll('.interactive-hover, a, button');
+
+        if(window.innerWidth > 768) {
+            document.addEventListener('mousemove', (e) => {
+                gsap.to(cursor, { x: e.clientX, y: e.clientY, duration: 0.15, ease: "power2.out" });
+                gsap.set(cursorDot, { x: e.clientX, y: e.clientY });
+            });
+            hoverElements.forEach(el => {
+                el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
+                el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
+            });
+        }
+
+        // Magnetické tlačidlá
+        const magneticBtns = document.querySelectorAll('.magnetic-btn');
+        magneticBtns.forEach(btn => {
+            btn.addEventListener('mousemove', (e) => {
+                const rect = btn.getBoundingClientRect();
+                const x = e.clientX - rect.left - rect.width / 2;
+                const y = e.clientY - rect.top - rect.height / 2;
+                gsap.to(btn, { x: x * 0.3, y: y * 0.3, duration: 0.3, ease: "power2.out" });
+            });
+            btn.addEventListener('mouseleave', () => {
+                gsap.to(btn, { x: 0, y: 0, duration: 0.7, ease: "elastic.out(1, 0.3)" });
+            });
+        });
+
+        // GSAP Animácie
+        document.addEventListener("DOMContentLoaded", () => {
+            gsap.registerPlugin(ScrollTrigger);
+
+            gsap.to("#progress-bar", { scrollTrigger: { trigger: "body", start: "top top", end: "bottom bottom", scrub: 1 }, width: "100%", ease: "none" });
+
+            gsap.set(".gsap-hidden", { autoAlpha: 1, visibility: "visible" });
+
+            // Hlavička
+            gsap.from(".page-header-content > *", { y: 30, opacity: 0, duration: 0.8, stagger: 0.2, ease: "power3.out", delay: 0.2 });
+
+            // SVG Karty so šachtami
+            gsap.utils.toArray('.tank-card').forEach((row) => {
+                gsap.from(row, {
+                    scrollTrigger: { trigger: row, start: "top 85%" },
+                    y: 40, opacity: 0, duration: 0.8, ease: "power3.out"
+                });
+            });
+
+            // Ostatné karty a texty
+            gsap.utils.toArray('.gsap-scroll-fade').forEach((element) => {
+                gsap.from(element, {
+                    scrollTrigger: { trigger: element, start: "top 85%" },
+                    y: 40, opacity: 0, duration: 0.8, ease: "power2.out"
+                });
+            });
+        });
+    </script>
+</body>
+</html>
