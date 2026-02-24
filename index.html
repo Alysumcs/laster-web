@@ -82,8 +82,10 @@
                     <a href="nadrze.html" class="text-slate-600 hover:text-primary transition font-medium interactive-hover">Nádrže</a>
                     <a href="sachty.html" class="text-slate-600 hover:text-primary transition font-medium interactive-hover">Šachty</a>
                     <a href="bioclar.html" class="text-slate-600 hover:text-secondary transition font-medium interactive-hover">Čistiarne BIOCLAR</a>
-                    <div class="magnetic-btn">
-                        <a href="#kontakt" class="bg-dark text-white px-6 py-2.5 rounded-full hover:bg-slate-800 transition font-medium block">Kontakt</a>
+                    <div class="magnetic-btn relative">
+                        <!-- Pulzujúci efekt -->
+                        <span class="absolute inset-0 rounded-full bg-slate-500 opacity-20 animate-ping" style="animation-duration: 2.5s;"></span>
+                        <a href="#kontakt" class="relative z-10 bg-dark text-white px-6 py-2.5 rounded-full hover:bg-slate-800 transition font-medium block">Kontakt</a>
                     </div>
                 </div>
 
@@ -103,7 +105,14 @@
                 <a href="nadrze.html" class="block px-3 py-2 text-slate-600 hover:bg-slate-50 hover:text-primary rounded-md">Nádrže</a>
                 <a href="sachty.html" class="block px-3 py-2 text-slate-600 hover:bg-slate-50 hover:text-primary rounded-md">Šachty</a>
                 <a href="bioclar.html" class="block px-3 py-2 text-slate-600 hover:bg-slate-50 hover:text-secondary rounded-md">Čistiarne BIOCLAR</a>
-                <a href="#kontakt" class="block px-3 py-2 text-slate-600 hover:bg-slate-50 hover:text-primary rounded-md">Kontakt</a>
+                <a href="#kontakt" class="flex items-center justify-between px-3 py-2 text-slate-600 hover:bg-slate-50 hover:text-primary rounded-md">
+                    <span>Kontakt</span>
+                    <!-- Pulzujúca bodka v mobilnom menu -->
+                    <span class="relative flex h-2.5 w-2.5">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75" style="animation-duration: 2s;"></span>
+                        <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-primary"></span>
+                    </span>
+                </a>
             </div>
         </div>
     </nav>
