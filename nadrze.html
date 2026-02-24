@@ -55,7 +55,7 @@
     <!-- Progress Bar pre scrollovanie -->
     <div id="progress-bar" class="fixed top-0 left-0 h-1 bg-gradient-to-r from-primary to-secondary z-[60] w-0"></div>
 
-    <!-- Navigácia -->
+    <!-- Navigácia (OPRAVENÁ) -->
     <nav class="bg-white/80 backdrop-blur-md shadow-sm fixed w-full z-50 top-0 border-b border-slate-100">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-20">
@@ -68,10 +68,10 @@
                 
                 <!-- Desktop Menu -->
                 <div class="hidden md:flex items-center space-x-8">
-                    <a href="index.html#domov" class="text-slate-600 hover:text-primary transition font-medium interactive-hover">Domov</a>
+                    <a href="index.html" class="text-slate-600 hover:text-primary transition font-medium interactive-hover">Domov</a>
                     <a href="#" class="text-primary transition font-bold interactive-hover">Nádrže</a>
-                    <a href="index.html#sachty" class="text-slate-600 hover:text-primary transition font-medium interactive-hover">Šachty</a>
-                    <a href="index.html#bioclar" class="text-slate-600 hover:text-secondary transition font-medium interactive-hover">Čistiarne BIOCLAR</a>
+                    <a href="sachty.html" class="text-slate-600 hover:text-primary transition font-medium interactive-hover">Šachty</a>
+                    <a href="bioclar.html" class="text-slate-600 hover:text-secondary transition font-medium interactive-hover">Čistiarne BIOCLAR</a>
                     <div class="magnetic-btn">
                         <a href="index.html#kontakt" class="bg-dark text-white px-6 py-2.5 rounded-full hover:bg-slate-800 transition font-medium block">Kontakt</a>
                     </div>
@@ -89,10 +89,10 @@
         <!-- Mobilné Menu -->
         <div id="mobile-menu" class="hidden md:hidden bg-white border-t absolute w-full shadow-2xl">
             <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                <a href="index.html#domov" class="block px-3 py-2 text-slate-600 hover:bg-slate-50 hover:text-primary rounded-md">Domov</a>
+                <a href="index.html" class="block px-3 py-2 text-slate-600 hover:bg-slate-50 hover:text-primary rounded-md">Domov</a>
                 <a href="#" class="block px-3 py-2 text-primary font-bold bg-slate-50 rounded-md">Nádrže (Aktuálne)</a>
-                <a href="index.html#sachty" class="block px-3 py-2 text-slate-600 hover:bg-slate-50 hover:text-primary rounded-md">Šachty</a>
-                <a href="index.html#bioclar" class="block px-3 py-2 text-slate-600 hover:bg-slate-50 hover:text-secondary rounded-md">Čistiarne BIOCLAR</a>
+                <a href="sachty.html" class="block px-3 py-2 text-slate-600 hover:bg-slate-50 hover:text-primary rounded-md">Šachty</a>
+                <a href="bioclar.html" class="block px-3 py-2 text-slate-600 hover:bg-slate-50 hover:text-secondary rounded-md">Čistiarne BIOCLAR</a>
                 <a href="index.html#kontakt" class="block px-3 py-2 text-slate-600 hover:bg-slate-50 hover:text-primary rounded-md">Kontakt</a>
             </div>
         </div>
@@ -320,10 +320,9 @@
             <!-- Blok 2: Žumpy a odpadové nádrže -->
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center product-block gsap-hidden">
                 <div>
-                    <!-- Interaktívna animovaná ukážka hranatej žumpy (s presným mapovaním bodov) -->
+                    <!-- Interaktívna animovaná ukážka hranatej žumpy -->
                     <div id="animated-zumpa-container" class="rounded-3xl shadow-2xl relative interactive-hover h-[300px] sm:h-[350px] bg-slate-100 flex items-center justify-center border-4 border-slate-200">
                         
-                        <!-- Vnútorný kontajner na zachovanie proporcií (4:3) podľa SVG -->
                         <div class="relative w-full aspect-[4/3] max-h-full flex items-center justify-center max-w-[320px]">
                             
                             <svg viewBox="0 0 200 150" class="absolute inset-0 w-full h-full drop-shadow-xl" preserveAspectRatio="xMidYMid meet">
@@ -336,7 +335,7 @@
                                  <rect x="115" y="10" width="40" height="5" fill="#020617" class="zumpa-veko"/>
                             </svg>
 
-                            <!-- Hotspot 1: Výstuhy (Presunutý na ľavú výstuhu - cca 27% zľava) -->
+                            <!-- Hotspot 1: Výstuhy -->
                             <div class="absolute z-50" style="top: 58%; left: 27%; transform: translate(-50%, -50%);">
                                 <div class="group relative flex items-center justify-center cursor-pointer interactive-hover gsap-zumpa-hotspot w-12 h-12">
                                     <span class="absolute inline-flex h-6 w-6 sm:h-8 sm:w-8 rounded-full bg-slate-400 opacity-75 animate-ping"></span>
@@ -525,7 +524,7 @@
                 });
             });
 
-            // Animácia pre Hranatú žumpu (Skladanie SVG elementov)
+            // Animácia pre Hranatú žumpu
             const zumpaTl = gsap.timeline({
                 scrollTrigger: {
                     trigger: "#animated-zumpa-container",
