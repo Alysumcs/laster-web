@@ -55,7 +55,7 @@
     <!-- Progress Bar pre scrollovanie -->
     <div id="progress-bar" class="fixed top-0 left-0 h-1 bg-gradient-to-r from-primary to-secondary z-[60] w-0"></div>
 
-    <!-- Navigácia (OPRAVENÁ) -->
+    <!-- Navigácia -->
     <nav class="bg-white/80 backdrop-blur-md shadow-sm fixed w-full z-50 top-0 border-b border-slate-100">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-20">
@@ -72,8 +72,9 @@
                     <a href="#" class="text-primary transition font-bold interactive-hover">Nádrže</a>
                     <a href="sachty.html" class="text-slate-600 hover:text-primary transition font-medium interactive-hover">Šachty</a>
                     <a href="bioclar.html" class="text-slate-600 hover:text-secondary transition font-medium interactive-hover">Čistiarne BIOCLAR</a>
-                    <div class="magnetic-btn">
-                        <a href="index.html#kontakt" class="bg-dark text-white px-6 py-2.5 rounded-full hover:bg-slate-800 transition font-medium block">Kontakt</a>
+                    <div class="magnetic-btn relative">
+                        <span class="absolute inset-0 rounded-full bg-slate-500 opacity-20 animate-ping" style="animation-duration: 2.5s;"></span>
+                        <a href="index.html#kontakt" class="relative z-10 bg-dark text-white px-6 py-2.5 rounded-full hover:bg-slate-800 transition font-medium block">Kontakt</a>
                     </div>
                 </div>
 
@@ -93,7 +94,13 @@
                 <a href="#" class="block px-3 py-2 text-primary font-bold bg-slate-50 rounded-md">Nádrže (Aktuálne)</a>
                 <a href="sachty.html" class="block px-3 py-2 text-slate-600 hover:bg-slate-50 hover:text-primary rounded-md">Šachty</a>
                 <a href="bioclar.html" class="block px-3 py-2 text-slate-600 hover:bg-slate-50 hover:text-secondary rounded-md">Čistiarne BIOCLAR</a>
-                <a href="index.html#kontakt" class="block px-3 py-2 text-slate-600 hover:bg-slate-50 hover:text-primary rounded-md">Kontakt</a>
+                <a href="index.html#kontakt" class="flex items-center justify-between px-3 py-2 text-slate-600 hover:bg-slate-50 hover:text-primary rounded-md">
+                    <span>Kontakt</span>
+                    <span class="relative flex h-2.5 w-2.5">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75" style="animation-duration: 2s;"></span>
+                        <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-primary"></span>
+                    </span>
+                </a>
             </div>
         </div>
     </nav>
@@ -125,161 +132,162 @@
                 <p class="text-slate-600 max-w-2xl mx-auto mt-4">Vyrábame nádrže prispôsobené pre rôzne geologické a záťažové podmienky vášho pozemku.</p>
             </div>
 
-            <!-- Pridaná trieda 'tank-card' pre spoľahlivú GSAP animáciu -->
+            <!-- OPRAVA: Obalenie do rodičovského GSAP divu pre zabránenie konfliktom s CSS hoverom -->
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
                 
                 <!-- 1. Samonosná nádrž -->
-                <div class="tank-card bg-white p-8 rounded-[2rem] shadow-lg border border-slate-100 flex flex-col items-center text-center gsap-hidden interactive-hover group hover:-translate-y-2 hover:shadow-2xl transition-all duration-300">
-                    <div class="w-full h-56 mb-8 relative flex items-center justify-center">
-                        <svg viewBox="0 0 300 250" class="w-full h-full drop-shadow-2xl transition-transform duration-500 group-hover:scale-105" preserveAspectRatio="xMidYMid meet">
-                            <defs>
-                                <linearGradient id="bodyGrad1" x1="0%" y1="0%" x2="100%" y2="0%">
-                                    <stop offset="0%" stop-color="#1a1a1a"/>
-                                    <stop offset="30%" stop-color="#3a3a3a"/>
-                                    <stop offset="60%" stop-color="#151515"/>
-                                    <stop offset="100%" stop-color="#050505"/>
-                                </linearGradient>
-                                <linearGradient id="ribGrad1" x1="0%" y1="0%" x2="100%" y2="0%">
-                                    <stop offset="0%" stop-color="#0a0a0a"/>
-                                    <stop offset="50%" stop-color="#222"/>
-                                    <stop offset="100%" stop-color="#050505"/>
-                                </linearGradient>
-                                <linearGradient id="topGrad1" x1="0%" y1="0%" x2="0%" y2="100%">
-                                    <stop offset="0%" stop-color="#2a2a2a"/>
-                                    <stop offset="100%" stop-color="#111111"/>
-                                </linearGradient>
-                            </defs>
-                            <!-- Tieň / Dno -->
-                            <ellipse cx="150" cy="210" rx="135" ry="20" fill="#000"/>
-                            
-                            <!-- Hlavný valec (Základné telo) -->
-                            <path d="M 20 80 L 20 210 A 130 20 0 0 0 280 210 L 280 80 Z" fill="url(#bodyGrad1)"/>
+                <div class="tank-card gsap-hidden h-full">
+                    <div class="bg-white p-8 rounded-[2rem] shadow-lg border border-slate-100 flex flex-col items-center text-center interactive-hover group hover:-translate-y-2 hover:shadow-2xl transition-all duration-300 h-full">
+                        <div class="w-full h-56 mb-8 relative flex items-center justify-center">
+                            <svg viewBox="0 0 300 250" class="w-full h-full drop-shadow-2xl transition-transform duration-500 group-hover:scale-105" preserveAspectRatio="xMidYMid meet">
+                                <defs>
+                                    <linearGradient id="bodyGrad1" x1="0%" y1="0%" x2="100%" y2="0%">
+                                        <stop offset="0%" stop-color="#1a1a1a"/>
+                                        <stop offset="30%" stop-color="#3a3a3a"/>
+                                        <stop offset="60%" stop-color="#151515"/>
+                                        <stop offset="100%" stop-color="#050505"/>
+                                    </linearGradient>
+                                    <linearGradient id="ribGrad1" x1="0%" y1="0%" x2="100%" y2="0%">
+                                        <stop offset="0%" stop-color="#0a0a0a"/>
+                                        <stop offset="50%" stop-color="#222"/>
+                                        <stop offset="100%" stop-color="#050505"/>
+                                    </linearGradient>
+                                    <linearGradient id="topGrad1" x1="0%" y1="0%" x2="0%" y2="100%">
+                                        <stop offset="0%" stop-color="#2a2a2a"/>
+                                        <stop offset="100%" stop-color="#111111"/>
+                                    </linearGradient>
+                                </defs>
+                                <!-- Tieň / Dno -->
+                                <ellipse cx="150" cy="210" rx="135" ry="20" fill="#000"/>
+                                
+                                <!-- Hlavný valec -->
+                                <path d="M 20 80 L 20 210 A 130 20 0 0 0 280 210 L 280 80 Z" fill="url(#bodyGrad1)"/>
 
-                            <!-- Horizontálne vonkajšie výstuhy (Prstence) -->
-                            <path d="M 15 100 A 135 20 0 0 1 285 100 L 285 115 A 135 20 0 0 0 15 115 Z" fill="url(#ribGrad1)"/>
-                            <path d="M 15 145 A 135 20 0 0 1 285 145 L 285 160 A 135 20 0 0 0 15 160 Z" fill="url(#ribGrad1)"/>
-                            <path d="M 15 190 A 135 20 0 0 1 285 190 L 285 205 A 135 20 0 0 0 15 205 Z" fill="url(#ribGrad1)"/>
+                                <!-- Horizontálne výstuhy -->
+                                <path d="M 15 100 A 135 20 0 0 1 285 100 L 285 115 A 135 20 0 0 0 15 115 Z" fill="url(#ribGrad1)"/>
+                                <path d="M 15 145 A 135 20 0 0 1 285 145 L 285 160 A 135 20 0 0 0 15 160 Z" fill="url(#ribGrad1)"/>
+                                <path d="M 15 190 A 135 20 0 0 1 285 190 L 285 205 A 135 20 0 0 0 15 205 Z" fill="url(#ribGrad1)"/>
 
-                            <!-- Vertikálne vonkajšie výstuhy (Rebrá) -->
-                            <!-- Zadné (tmavšie) -->
-                            <rect x="70" y="80" width="10" height="130" fill="#0a0a0a"/>
-                            <rect x="220" y="80" width="10" height="130" fill="#0a0a0a"/>
-                            <!-- Predné (svetlejšie) -->
-                            <rect x="20" y="80" width="12" height="130" fill="url(#ribGrad1)"/>
-                            <rect x="144" y="80" width="12" height="130" fill="url(#ribGrad1)"/>
-                            <rect x="268" y="80" width="12" height="130" fill="url(#ribGrad1)"/>
+                                <!-- Vertikálne výstuhy -->
+                                <rect x="70" y="80" width="10" height="130" fill="#0a0a0a"/>
+                                <rect x="220" y="80" width="10" height="130" fill="#0a0a0a"/>
+                                <rect x="20" y="80" width="12" height="130" fill="url(#ribGrad1)"/>
+                                <rect x="144" y="80" width="12" height="130" fill="url(#ribGrad1)"/>
+                                <rect x="268" y="80" width="12" height="130" fill="url(#ribGrad1)"/>
 
-                            <!-- Vrchná elipsa (Veko nádrže) -->
-                            <ellipse cx="150" cy="80" rx="130" ry="18" fill="#111"/>
-                            <ellipse cx="150" cy="78" rx="128" ry="17" fill="url(#topGrad1)"/>
+                                <!-- Veko -->
+                                <ellipse cx="150" cy="80" rx="130" ry="18" fill="#111"/>
+                                <ellipse cx="150" cy="78" rx="128" ry="17" fill="url(#topGrad1)"/>
 
-                            <!-- Krížové výstuhy na vrchu -->
-                            <path d="M 150 65 L 150 90 L 260 75 L 260 65 Z" fill="#1a1a1a"/>
-                            <path d="M 40 75 L 40 85 L 150 90 L 150 65 Z" fill="#2a2a2a"/>
-                            <path d="M 150 65 L 150 90 L 90 100 L 90 78 Z" fill="#0f0f0f"/>
+                                <!-- Krížové výstuhy -->
+                                <path d="M 150 65 L 150 90 L 260 75 L 260 65 Z" fill="#1a1a1a"/>
+                                <path d="M 40 75 L 40 85 L 150 90 L 150 65 Z" fill="#2a2a2a"/>
+                                <path d="M 150 65 L 150 90 L 90 100 L 90 78 Z" fill="#0f0f0f"/>
 
-                            <!-- Komín -->
-                            <path d="M 195 45 L 195 75 A 25 5 0 0 0 245 75 L 245 45 Z" fill="url(#bodyGrad1)"/>
-                            <!-- Veko komína -->
-                            <path d="M 193 40 L 193 45 A 27 5 0 0 0 247 45 L 247 40 Z" fill="#222"/>
-                            <ellipse cx="220" cy="40" rx="27" ry="5" fill="#0a0a0a"/>
-                        </svg>
-                    </div>
-                    <h3 class="text-2xl font-bold text-dark mb-3">Samonosná nádrž</h3>
-                    <p class="text-slate-600 text-sm leading-relaxed mb-6">
-                        Ideálna pre miesta s klasickou zeminou bez výskytu spodnej vody. Vďaka masívnym vnútorným a vonkajším výstuham sa nemusí obetónovať, stačí ju obsypať triedenou zeminou.
-                    </p>
-                    <div class="mt-auto bg-blue-50 text-primary px-4 py-2 rounded-full text-sm font-bold">
-                        Rýchla inštalácia
+                                <!-- Komín -->
+                                <path d="M 195 45 L 195 75 A 25 5 0 0 0 245 75 L 245 45 Z" fill="url(#bodyGrad1)"/>
+                                <path d="M 193 40 L 193 45 A 27 5 0 0 0 247 45 L 247 40 Z" fill="#222"/>
+                                <ellipse cx="220" cy="40" rx="27" ry="5" fill="#0a0a0a"/>
+                            </svg>
+                        </div>
+                        <h3 class="text-2xl font-bold text-dark mb-3">Samonosná nádrž</h3>
+                        <p class="text-slate-600 text-sm leading-relaxed mb-6">
+                            Ideálna pre miesta s klasickou zeminou bez výskytu spodnej vody. Vďaka masívnym vnútorným a vonkajším výstuham sa nemusí obetónovať, stačí ju obsypať triedenou zeminou.
+                        </p>
+                        <div class="mt-auto bg-blue-50 text-primary px-4 py-2 rounded-full text-sm font-bold">
+                            Rýchla inštalácia
+                        </div>
                     </div>
                 </div>
 
                 <!-- 2. Nádrž na obetónovanie -->
-                <div class="tank-card bg-white p-8 rounded-[2rem] shadow-lg border border-slate-100 flex flex-col items-center text-center gsap-hidden interactive-hover group relative overflow-hidden hover:-translate-y-2 hover:shadow-2xl transition-all duration-300">
-                    <div class="absolute top-0 left-0 w-full h-1 bg-primary"></div>
-                    <div class="w-full h-56 mb-8 relative flex items-center justify-center">
-                        <svg viewBox="0 0 300 250" class="w-full h-full drop-shadow-2xl transition-transform duration-500 group-hover:scale-105" preserveAspectRatio="xMidYMid meet">
-                            <defs>
-                                <linearGradient id="bodyGrad2" x1="0%" y1="0%" x2="100%" y2="0%">
-                                    <stop offset="0%" stop-color="#1a1a1a"/>
-                                    <stop offset="30%" stop-color="#3a3a3a"/>
-                                    <stop offset="60%" stop-color="#151515"/>
-                                    <stop offset="100%" stop-color="#050505"/>
-                                </linearGradient>
-                                <linearGradient id="topGrad2" x1="0%" y1="0%" x2="0%" y2="100%">
-                                    <stop offset="0%" stop-color="#2a2a2a"/>
-                                    <stop offset="100%" stop-color="#111111"/>
-                                </linearGradient>
-                            </defs>
-                            <!-- Tieň / Dno -->
-                            <ellipse cx="150" cy="210" rx="135" ry="20" fill="#000"/>
-                            <ellipse cx="150" cy="208" rx="132" ry="18" fill="#111"/> 
-                            
-                            <!-- Hladké telo bez rebier -->
-                            <path d="M 18 80 L 18 208 A 132 18 0 0 0 282 208 L 282 80 Z" fill="url(#bodyGrad2)"/>
-                            
-                            <!-- Vrchná elipsa -->
-                            <ellipse cx="150" cy="80" rx="135" ry="20" fill="#050505"/> 
-                            <ellipse cx="150" cy="78" rx="132" ry="18" fill="url(#topGrad2)"/>
+                <div class="tank-card gsap-hidden h-full">
+                    <div class="bg-white p-8 rounded-[2rem] shadow-lg border border-slate-100 flex flex-col items-center text-center interactive-hover group relative overflow-hidden hover:-translate-y-2 hover:shadow-2xl transition-all duration-300 h-full">
+                        <div class="absolute top-0 left-0 w-full h-1 bg-primary"></div>
+                        <div class="w-full h-56 mb-8 relative flex items-center justify-center">
+                            <svg viewBox="0 0 300 250" class="w-full h-full drop-shadow-2xl transition-transform duration-500 group-hover:scale-105" preserveAspectRatio="xMidYMid meet">
+                                <defs>
+                                    <linearGradient id="bodyGrad2" x1="0%" y1="0%" x2="100%" y2="0%">
+                                        <stop offset="0%" stop-color="#1a1a1a"/>
+                                        <stop offset="30%" stop-color="#3a3a3a"/>
+                                        <stop offset="60%" stop-color="#151515"/>
+                                        <stop offset="100%" stop-color="#050505"/>
+                                    </linearGradient>
+                                    <linearGradient id="topGrad2" x1="0%" y1="0%" x2="0%" y2="100%">
+                                        <stop offset="0%" stop-color="#2a2a2a"/>
+                                        <stop offset="100%" stop-color="#111111"/>
+                                    </linearGradient>
+                                </defs>
+                                <!-- Tieň / Dno -->
+                                <ellipse cx="150" cy="210" rx="135" ry="20" fill="#000"/>
+                                <ellipse cx="150" cy="208" rx="132" ry="18" fill="#111"/> 
+                                
+                                <!-- Hladké telo bez rebier -->
+                                <path d="M 18 80 L 18 208 A 132 18 0 0 0 282 208 L 282 80 Z" fill="url(#bodyGrad2)"/>
+                                
+                                <!-- Vrchná elipsa -->
+                                <ellipse cx="150" cy="80" rx="135" ry="20" fill="#050505"/> 
+                                <ellipse cx="150" cy="78" rx="132" ry="18" fill="url(#topGrad2)"/>
 
-                            <!-- Komín -->
-                            <path d="M 195 45 L 195 75 A 25 5 0 0 0 245 75 L 245 45 Z" fill="url(#bodyGrad2)"/>
-                            <!-- Veko komína -->
-                            <path d="M 193 40 L 193 45 A 27 5 0 0 0 247 45 L 247 40 Z" fill="#222"/>
-                            <ellipse cx="220" cy="40" rx="27" ry="5" fill="#0a0a0a"/>
-                        </svg>
-                    </div>
-                    <h3 class="text-2xl font-bold text-dark mb-3">Nádrž na obetónovanie</h3>
-                    <p class="text-slate-600 text-sm leading-relaxed mb-6">
-                        Určená do miest so statickým zaťažením (napr. prejazd vozidiel, blízko komunikácie) alebo do väčších hĺbok. Pre zachovanie tvaru sa celá stena pri inštalácii obetónuje.
-                    </p>
-                    <div class="mt-auto bg-slate-100 text-slate-700 px-4 py-2 rounded-full text-sm font-bold">
-                        Vysoká nosnosť
+                                <!-- Komín -->
+                                <path d="M 195 45 L 195 75 A 25 5 0 0 0 245 75 L 245 45 Z" fill="url(#bodyGrad2)"/>
+                                <path d="M 193 40 L 193 45 A 27 5 0 0 0 247 45 L 247 40 Z" fill="#222"/>
+                                <ellipse cx="220" cy="40" rx="27" ry="5" fill="#0a0a0a"/>
+                            </svg>
+                        </div>
+                        <h3 class="text-2xl font-bold text-dark mb-3">Nádrž na obetónovanie</h3>
+                        <p class="text-slate-600 text-sm leading-relaxed mb-6">
+                            Určená do miest so statickým zaťažením (napr. prejazd vozidiel, blízko komunikácie) alebo do väčších hĺbok. Pre zachovanie tvaru sa celá stena pri inštalácii obetónuje.
+                        </p>
+                        <div class="mt-auto bg-slate-100 text-slate-700 px-4 py-2 rounded-full text-sm font-bold">
+                            Vysoká nosnosť
+                        </div>
                     </div>
                 </div>
 
                 <!-- 3. Dvojplášťová nádrž -->
-                <div class="tank-card bg-white p-8 rounded-[2rem] shadow-lg border border-slate-100 flex flex-col items-center text-center gsap-hidden interactive-hover group hover:-translate-y-2 hover:shadow-2xl transition-all duration-300">
-                    <div class="w-full h-56 mb-8 relative flex items-center justify-center">
-                        <svg viewBox="0 0 300 250" class="w-full h-full drop-shadow-2xl transition-transform duration-500 group-hover:scale-105" preserveAspectRatio="xMidYMid meet">
-                            <defs>
-                                <linearGradient id="bodyGrad3" x1="0%" y1="0%" x2="100%" y2="0%">
-                                    <stop offset="0%" stop-color="#1a1a1a"/>
-                                    <stop offset="30%" stop-color="#3a3a3a"/>
-                                    <stop offset="60%" stop-color="#151515"/>
-                                    <stop offset="100%" stop-color="#050505"/>
-                                </linearGradient>
-                                <linearGradient id="topGrad3" x1="0%" y1="0%" x2="0%" y2="100%">
-                                    <stop offset="0%" stop-color="#2a2a2a"/>
-                                    <stop offset="100%" stop-color="#111111"/>
-                                </linearGradient>
-                            </defs>
-                            <!-- Tieň vonkajšieho plášťa -->
-                            <ellipse cx="150" cy="215" rx="140" ry="22" fill="#000"/>
-                            
-                            <!-- Vonkajší plášť (Telo) -->
-                            <path d="M 10 90 L 10 215 A 140 22 0 0 0 290 215 L 290 90 Z" fill="url(#bodyGrad3)"/>
-                            <!-- Vrch vonkajšieho plášťa -->
-                            <ellipse cx="150" cy="90" rx="140" ry="22" fill="#050505"/> 
-                            <ellipse cx="150" cy="90" rx="130" ry="20" fill="#111"/> 
-                            
-                            <!-- Vnútorná nádrž -->
-                            <path d="M 20 80 L 20 90 A 130 20 0 0 0 280 90 L 280 80 Z" fill="#0f172a"/>
-                            <ellipse cx="150" cy="80" rx="130" ry="20" fill="url(#topGrad3)"/>
+                <div class="tank-card gsap-hidden h-full">
+                    <div class="bg-white p-8 rounded-[2rem] shadow-lg border border-slate-100 flex flex-col items-center text-center interactive-hover group hover:-translate-y-2 hover:shadow-2xl transition-all duration-300 h-full">
+                        <div class="w-full h-56 mb-8 relative flex items-center justify-center">
+                            <svg viewBox="0 0 300 250" class="w-full h-full drop-shadow-2xl transition-transform duration-500 group-hover:scale-105" preserveAspectRatio="xMidYMid meet">
+                                <defs>
+                                    <linearGradient id="bodyGrad3" x1="0%" y1="0%" x2="100%" y2="0%">
+                                        <stop offset="0%" stop-color="#1a1a1a"/>
+                                        <stop offset="30%" stop-color="#3a3a3a"/>
+                                        <stop offset="60%" stop-color="#151515"/>
+                                        <stop offset="100%" stop-color="#050505"/>
+                                    </linearGradient>
+                                    <linearGradient id="topGrad3" x1="0%" y1="0%" x2="0%" y2="100%">
+                                        <stop offset="0%" stop-color="#2a2a2a"/>
+                                        <stop offset="100%" stop-color="#111111"/>
+                                    </linearGradient>
+                                </defs>
+                                <!-- Tieň vonkajšieho plášťa -->
+                                <ellipse cx="150" cy="215" rx="140" ry="22" fill="#000"/>
+                                
+                                <!-- Vonkajší plášť (Telo) -->
+                                <path d="M 10 90 L 10 215 A 140 22 0 0 0 290 215 L 290 90 Z" fill="url(#bodyGrad3)"/>
+                                <!-- Vrch vonkajšieho plášťa -->
+                                <ellipse cx="150" cy="90" rx="140" ry="22" fill="#050505"/> 
+                                <ellipse cx="150" cy="90" rx="130" ry="20" fill="#111"/> 
+                                
+                                <!-- Vnútorná nádrž -->
+                                <path d="M 20 80 L 20 90 A 130 20 0 0 0 280 90 L 280 80 Z" fill="#0f172a"/>
+                                <ellipse cx="150" cy="80" rx="130" ry="20" fill="url(#topGrad3)"/>
 
-                            <!-- Komín -->
-                            <path d="M 195 45 L 195 78 A 25 5 0 0 0 245 78 L 245 45 Z" fill="url(#bodyGrad3)"/>
-                            <!-- Veko komína -->
-                            <path d="M 193 40 L 193 45 A 27 5 0 0 0 247 45 L 247 40 Z" fill="#222"/>
-                            <ellipse cx="220" cy="40" rx="27" ry="5" fill="#0a0a0a"/>
-                        </svg>
-                    </div>
-                    <h3 class="text-2xl font-bold text-dark mb-3">Dvojplášťová nádrž</h3>
-                    <p class="text-slate-600 text-sm leading-relaxed mb-6">
-                        Vyvinutá špeciálne pre miesta s vysokou hladinou spodnej vody alebo pre záplavové oblasti. Dvojitý plášť sa vyplní betónom, čím vznikne extrémne stabilná konštrukcia.
-                    </p>
-                    <div class="mt-auto bg-emerald-50 text-secondary px-4 py-2 rounded-full text-sm font-bold">
-                        Do spodnej vody
+                                <!-- Komín -->
+                                <path d="M 195 45 L 195 78 A 25 5 0 0 0 245 78 L 245 45 Z" fill="url(#bodyGrad3)"/>
+                                <path d="M 193 40 L 193 45 A 27 5 0 0 0 247 45 L 247 40 Z" fill="#222"/>
+                                <ellipse cx="220" cy="40" rx="27" ry="5" fill="#0a0a0a"/>
+                            </svg>
+                        </div>
+                        <h3 class="text-2xl font-bold text-dark mb-3">Dvojplášťová nádrž</h3>
+                        <p class="text-slate-600 text-sm leading-relaxed mb-6">
+                            Vyvinutá špeciálne pre miesta s vysokou hladinou spodnej vody alebo pre záplavové oblasti. Dvojitý plášť sa vyplní betónom, čím vznikne extrémne stabilná konštrukcia.
+                        </p>
+                        <div class="mt-auto bg-emerald-50 text-secondary px-4 py-2 rounded-full text-sm font-bold">
+                            Do spodnej vody
+                        </div>
                     </div>
                 </div>
 
@@ -306,6 +314,7 @@
                 </div>
                 <div class="order-1 lg:order-2">
                     <div class="rounded-3xl overflow-hidden shadow-2xl relative group interactive-hover h-[300px]">
+                        <!-- Zmenená fotka na dažďové kvapky na skle podľa tvojej prílohy -->
                         <img src="https://images.unsplash.com/photo-1515694346937-94d85e41e6f0?auto=format&fit=crop&q=80&w=800" 
                              alt="Dažďová voda" 
                              onerror="this.src='https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&q=80&w=800'"
@@ -390,32 +399,148 @@
                 <p class="text-slate-600 max-w-2xl mx-auto">Dbáme na výber špičkových plastov a precízne zváranie, aby naše nádoby slúžili desaťročia.</p>
             </div>
 
+            <!-- OPRAVA: Obalenie do rodičovského GSAP divu aj tu -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                 <!-- Vlastnosť 1 -->
-                <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-100 gsap-scroll-fade gsap-hidden interactive-hover group hover:shadow-xl hover:-translate-y-2 transition-all duration-300">
-                    <div class="w-14 h-14 bg-blue-50 rounded-2xl flex items-center justify-center text-primary mb-6 group-hover:scale-110 transition-transform">
-                        <i data-lucide="box" class="h-7 w-7"></i>
+                <div class="gsap-scroll-fade gsap-hidden h-full">
+                    <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-100 interactive-hover group hover:shadow-xl hover:-translate-y-2 transition-all duration-300 h-full">
+                        <div class="w-14 h-14 bg-blue-50 rounded-2xl flex items-center justify-center text-primary mb-6 group-hover:scale-110 transition-transform">
+                            <i data-lucide="box" class="h-7 w-7"></i>
+                        </div>
+                        <h3 class="font-bold text-xl text-dark mb-3">Tvary na mieru</h3>
+                        <p class="text-slate-600">Vyrábame nádrže <strong>valcové</strong> (lepšie odolávajú tlakom zeminy a vody) alebo <strong>hranaté</strong> (ideálne pre maximálne využitie úzkeho priestoru). Rozmery prispôsobíme vašej jame.</p>
                     </div>
-                    <h3 class="font-bold text-xl text-dark mb-3">Tvary na mieru</h3>
-                    <p class="text-slate-600">Vyrábame nádrže <strong>valcové</strong> (lepšie odolávajú tlakom zeminy a vody) alebo <strong>hranaté</strong> (ideálne pre maximálne využitie úzkeho priestoru). Rozmery prispôsobíme vašej jame.</p>
                 </div>
 
                 <!-- Vlastnosť 2 -->
-                <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-100 gsap-scroll-fade gsap-hidden interactive-hover group hover:shadow-xl hover:-translate-y-2 transition-all duration-300">
-                    <div class="w-14 h-14 bg-blue-50 rounded-2xl flex items-center justify-center text-primary mb-6 group-hover:scale-110 transition-transform">
-                        <i data-lucide="shield" class="h-7 w-7"></i>
+                <div class="gsap-scroll-fade gsap-hidden h-full">
+                    <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-100 interactive-hover group hover:shadow-xl hover:-translate-y-2 transition-all duration-300 h-full">
+                        <div class="w-14 h-14 bg-blue-50 rounded-2xl flex items-center justify-center text-primary mb-6 group-hover:scale-110 transition-transform">
+                            <i data-lucide="shield" class="h-7 w-7"></i>
+                        </div>
+                        <h3 class="font-bold text-xl text-dark mb-3">Polypropylén 5-8 mm</h3>
+                        <p class="text-slate-600">Zdravotne nezávadný, stálofarebný neporézny materiál. Hladký povrch zabraňuje usadzovaniu nečistôt a extrémne uľahčuje prípadné čistenie.</p>
                     </div>
-                    <h3 class="font-bold text-xl text-dark mb-3">Polypropylén 5-8 mm</h3>
-                    <p class="text-slate-600">Zdravotne nezávadný, stálofarebný neporézny materiál. Hladký povrch zabraňuje usadzovaniu nečistôt a extrémne uľahčuje prípadné čistenie.</p>
                 </div>
 
                 <!-- Vlastnosť 3 -->
-                <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-100 gsap-scroll-fade gsap-hidden interactive-hover group hover:shadow-xl hover:-translate-y-2 transition-all duration-300">
-                    <div class="w-14 h-14 bg-blue-50 rounded-2xl flex items-center justify-center text-primary mb-6 group-hover:scale-110 transition-transform">
-                        <i data-lucide="thermometer" class="h-7 w-7"></i>
+                <div class="gsap-scroll-fade gsap-hidden h-full">
+                    <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-100 interactive-hover group hover:shadow-xl hover:-translate-y-2 transition-all duration-300 h-full">
+                        <div class="w-14 h-14 bg-blue-50 rounded-2xl flex items-center justify-center text-primary mb-6 group-hover:scale-110 transition-transform">
+                            <i data-lucide="thermometer" class="h-7 w-7"></i>
+                        </div>
+                        <h3 class="font-bold text-xl text-dark mb-3">Vysoká odolnosť</h3>
+                        <p class="text-slate-600">Materiál je odolný voči UV žiareniu, mnohým chemikáliám a vyznačuje sa teplotnou odolnosťou v extrémnom rozmedzí od -40 °C až do +100 °C.</p>
                     </div>
-                    <h3 class="font-bold text-xl text-dark mb-3">Vysoká odolnosť</h3>
-                    <p class="text-slate-600">Materiál je odolný voči UV žiareniu, mnohým chemikáliám a vyznačuje sa teplotnou odolnosťou v extrémnom rozmedzí od -40 °C až do +100 °C.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Naše realizácie (Slider) -->
+    <section class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 gsap-scroll-fade gsap-hidden">
+                <h2 class="text-sm font-bold text-primary tracking-widest uppercase mb-2">Galéria</h2>
+                <h3 class="text-3xl md:text-4xl font-bold text-dark">Naše realizácie</h3>
+                <p class="text-slate-600 max-w-2xl mx-auto mt-4">Pozrite si ukážky z inštalácií našich nádrží a žúmp v praxi.</p>
+            </div>
+
+            <div class="relative w-full max-w-5xl mx-auto overflow-hidden rounded-[2rem] shadow-2xl group gsap-scroll-fade gsap-hidden border border-slate-100 bg-slate-50">
+                <!-- Slider Container pre 10 fotiek -->
+                <div id="realizacie-slider" class="flex transition-transform duration-700 ease-in-out h-[300px] sm:h-[400px] lg:h-[500px]">
+                    <!-- Snímka 1 -->
+                    <div class="w-full h-full shrink-0 relative">
+                        <img src="nadrz1.png" onerror="this.src='https://images.unsplash.com/photo-1541888053155-2747190013b0?auto=format&fit=crop&q=80&w=1200'" class="w-full h-full object-cover" alt="Realizácia nádrže 1">
+                        <div class="absolute inset-0 bg-gradient-to-t from-dark/60 to-transparent flex items-end p-8">
+                            <span class="text-white font-bold text-xl sm:text-2xl drop-shadow-md">Osadenie samonosnej nádrže</span>
+                        </div>
+                    </div>
+                    <!-- Snímka 2 -->
+                    <div class="w-full h-full shrink-0 relative">
+                        <img src="nadrz2.png" onerror="this.src='https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&q=80&w=1200'" class="w-full h-full object-cover" alt="Realizácia nádrže 2">
+                        <div class="absolute inset-0 bg-gradient-to-t from-dark/60 to-transparent flex items-end p-8">
+                            <span class="text-white font-bold text-xl sm:text-2xl drop-shadow-md">Nádrž na obetónovanie s prípravou</span>
+                        </div>
+                    </div>
+                    <!-- Snímka 3 -->
+                    <div class="w-full h-full shrink-0 relative">
+                        <img src="nadrz3.png" onerror="this.src='https://images.unsplash.com/photo-1585704032915-c3400ca199e7?auto=format&fit=crop&q=80&w=1200'" class="w-full h-full object-cover" alt="Realizácia nádrže 3">
+                        <div class="absolute inset-0 bg-gradient-to-t from-dark/60 to-transparent flex items-end p-8">
+                            <span class="text-white font-bold text-xl sm:text-2xl drop-shadow-md">Detail inštalácie a napojenia</span>
+                        </div>
+                    </div>
+                    <!-- Snímka 4 -->
+                    <div class="w-full h-full shrink-0 relative">
+                        <img src="nadrz4.png" onerror="this.src='https://images.unsplash.com/photo-1584486520270-19eca1efcce5?auto=format&fit=crop&q=80&w=1200'" class="w-full h-full object-cover" alt="Realizácia nádrže 4">
+                        <div class="absolute inset-0 bg-gradient-to-t from-dark/60 to-transparent flex items-end p-8">
+                            <span class="text-white font-bold text-xl sm:text-2xl drop-shadow-md">Príprava výkopu a podložia</span>
+                        </div>
+                    </div>
+                    <!-- Snímka 5 -->
+                    <div class="w-full h-full shrink-0 relative">
+                        <img src="nadrz5.png" onerror="this.src='https://images.unsplash.com/photo-1541888053155-2747190013b0?auto=format&fit=crop&q=80&w=1200'" class="w-full h-full object-cover" alt="Realizácia nádrže 5">
+                        <div class="absolute inset-0 bg-gradient-to-t from-dark/60 to-transparent flex items-end p-8">
+                            <span class="text-white font-bold text-xl sm:text-2xl drop-shadow-md">Uloženie dvojplášťovej nádrže</span>
+                        </div>
+                    </div>
+                    <!-- Snímka 6 -->
+                    <div class="w-full h-full shrink-0 relative">
+                        <img src="nadrz6.png" onerror="this.src='https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&q=80&w=1200'" class="w-full h-full object-cover" alt="Realizácia nádrže 6">
+                        <div class="absolute inset-0 bg-gradient-to-t from-dark/60 to-transparent flex items-end p-8">
+                            <span class="text-white font-bold text-xl sm:text-2xl drop-shadow-md">Montáž revízneho komína</span>
+                        </div>
+                    </div>
+                    <!-- Snímka 7 -->
+                    <div class="w-full h-full shrink-0 relative">
+                        <img src="nadrz7.png" onerror="this.src='https://images.unsplash.com/photo-1585704032915-c3400ca199e7?auto=format&fit=crop&q=80&w=1200'" class="w-full h-full object-cover" alt="Realizácia nádrže 7">
+                        <div class="absolute inset-0 bg-gradient-to-t from-dark/60 to-transparent flex items-end p-8">
+                            <span class="text-white font-bold text-xl sm:text-2xl drop-shadow-md">Zásyp a terénne úpravy</span>
+                        </div>
+                    </div>
+                    <!-- Snímka 8 -->
+                    <div class="w-full h-full shrink-0 relative">
+                        <img src="nadrz8.png" onerror="this.src='https://images.unsplash.com/photo-1584486520270-19eca1efcce5?auto=format&fit=crop&q=80&w=1200'" class="w-full h-full object-cover" alt="Realizácia nádrže 8">
+                        <div class="absolute inset-0 bg-gradient-to-t from-dark/60 to-transparent flex items-end p-8">
+                            <span class="text-white font-bold text-xl sm:text-2xl drop-shadow-md">Inštalácia vodomernej šachty</span>
+                        </div>
+                    </div>
+                    <!-- Snímka 9 -->
+                    <div class="w-full h-full shrink-0 relative">
+                        <img src="nadrz9.png" onerror="this.src='https://images.unsplash.com/photo-1541888053155-2747190013b0?auto=format&fit=crop&q=80&w=1200'" class="w-full h-full object-cover" alt="Realizácia nádrže 9">
+                        <div class="absolute inset-0 bg-gradient-to-t from-dark/60 to-transparent flex items-end p-8">
+                            <span class="text-white font-bold text-xl sm:text-2xl drop-shadow-md">Dokončená realizácia žumpy</span>
+                        </div>
+                    </div>
+                    <!-- Snímka 10 -->
+                    <div class="w-full h-full shrink-0 relative">
+                        <img src="nadrz10.png" onerror="this.src='https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&q=80&w=1200'" class="w-full h-full object-cover" alt="Realizácia nádrže 10">
+                        <div class="absolute inset-0 bg-gradient-to-t from-dark/60 to-transparent flex items-end p-8">
+                            <span class="text-white font-bold text-xl sm:text-2xl drop-shadow-md">Finálny vzhľad po osadení</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Ovládacie prvky pre Slider -->
+                <button id="slider-prev" class="absolute left-4 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white text-primary p-3 rounded-full shadow-lg backdrop-blur-sm transition-all interactive-hover opacity-0 group-hover:opacity-100 focus:opacity-100 z-20">
+                    <i data-lucide="chevron-left" class="h-6 w-6"></i>
+                </button>
+                <button id="slider-next" class="absolute right-4 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white text-primary p-3 rounded-full shadow-lg backdrop-blur-sm transition-all interactive-hover opacity-0 group-hover:opacity-100 focus:opacity-100 z-20">
+                    <i data-lucide="chevron-right" class="h-6 w-6"></i>
+                </button>
+
+                <!-- Indikátory Slideru (Bodky pre 10 fotiek - pridaný flex-wrap pre mobily) -->
+                <div class="absolute bottom-4 sm:bottom-6 left-0 right-0 flex flex-wrap justify-center gap-2 sm:gap-3 z-10 px-4">
+                    <button class="slider-dot w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-white transition-all shadow-md interactive-hover scale-125" data-index="0"></button>
+                    <button class="slider-dot w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-white/50 hover:bg-white transition-all shadow-md interactive-hover" data-index="1"></button>
+                    <button class="slider-dot w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-white/50 hover:bg-white transition-all shadow-md interactive-hover" data-index="2"></button>
+                    <button class="slider-dot w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-white/50 hover:bg-white transition-all shadow-md interactive-hover" data-index="3"></button>
+                    <button class="slider-dot w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-white/50 hover:bg-white transition-all shadow-md interactive-hover" data-index="4"></button>
+                    <button class="slider-dot w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-white/50 hover:bg-white transition-all shadow-md interactive-hover" data-index="5"></button>
+                    <button class="slider-dot w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-white/50 hover:bg-white transition-all shadow-md interactive-hover" data-index="6"></button>
+                    <button class="slider-dot w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-white/50 hover:bg-white transition-all shadow-md interactive-hover" data-index="7"></button>
+                    <button class="slider-dot w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-white/50 hover:bg-white transition-all shadow-md interactive-hover" data-index="8"></button>
+                    <button class="slider-dot w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-white/50 hover:bg-white transition-all shadow-md interactive-hover" data-index="9"></button>
                 </div>
             </div>
         </div>
@@ -538,6 +663,71 @@
                    .from(".zumpa-komin", { scaleY: 0, transformOrigin: "bottom", duration: 0.3, ease: "power1.out" })
                    .from(".zumpa-veko", { y: -20, opacity: 0, duration: 0.4, ease: "bounce.out" })
                    .from(".gsap-zumpa-hotspot", { scale: 0, opacity: 0, duration: 0.5, stagger: 0.2, ease: "back.out(2)" }, "-=0.2");
+
+            // --- Slider logika pre "Naše realizácie" ---
+            const slider = document.getElementById('realizacie-slider');
+            if (slider) {
+                const prevBtn = document.getElementById('slider-prev');
+                const nextBtn = document.getElementById('slider-next');
+                const dots = document.querySelectorAll('.slider-dot');
+                let slideIndex = 0;
+                // Dynamické zisťovanie počtu fotiek namiesto fixného čísla
+                const totalSlides = dots.length; 
+                let slideInterval;
+
+                function updateSlider() {
+                    slider.style.transform = `translateX(-${slideIndex * 100}%)`;
+                    dots.forEach((dot, idx) => {
+                        if (idx === slideIndex) {
+                            dot.classList.add('bg-white', 'scale-125');
+                            dot.classList.remove('bg-white/50');
+                        } else {
+                            dot.classList.remove('bg-white', 'scale-125');
+                            dot.classList.add('bg-white/50');
+                        }
+                    });
+                }
+
+                function nextSlide() {
+                    slideIndex = (slideIndex + 1) % totalSlides;
+                    updateSlider();
+                }
+
+                function prevSlide() {
+                    slideIndex = (slideIndex - 1 + totalSlides) % totalSlides;
+                    updateSlider();
+                }
+
+                function startSlider() {
+                    // Meniť obrázok každé 4 sekundy
+                    slideInterval = setInterval(nextSlide, 4000);
+                }
+
+                function stopSlider() {
+                    clearInterval(slideInterval);
+                }
+
+                // Klikanie na šípky
+                nextBtn.addEventListener('click', () => { nextSlide(); stopSlider(); startSlider(); });
+                prevBtn.addEventListener('click', () => { prevSlide(); stopSlider(); startSlider(); });
+                
+                // Klikanie na guličky dole
+                dots.forEach(dot => {
+                    dot.addEventListener('click', (e) => {
+                        slideIndex = parseInt(e.target.dataset.index);
+                        updateSlider();
+                        stopSlider();
+                        startSlider();
+                    });
+                });
+
+                // Zastaviť prezeranie, keď tam máš myš
+                slider.parentElement.addEventListener('mouseenter', stopSlider);
+                slider.parentElement.addEventListener('mouseleave', startSlider);
+                
+                updateSlider();
+                startSlider();
+            }
 
         });
     </script>
