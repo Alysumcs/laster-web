@@ -313,13 +313,127 @@
                     </ul>
                 </div>
                 <div class="order-1 lg:order-2">
-                    <div class="rounded-3xl overflow-hidden shadow-2xl relative group interactive-hover h-[300px]">
-                        <!-- Zmenená fotka na dažďové kvapky na skle podľa tvojej prílohy -->
-                        <img src="https://images.unsplash.com/photo-1515694346937-94d85e41e6f0?auto=format&fit=crop&q=80&w=800" 
-                             alt="Dažďová voda" 
-                             onerror="this.src='https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&q=80&w=800'"
-                             class="w-full h-full object-cover group-hover:scale-105 transition duration-700">
-                        <div class="absolute inset-0 bg-gradient-to-t from-dark/60 to-transparent flex items-end p-6">
+                    <div class="rounded-3xl overflow-hidden shadow-2xl relative group interactive-hover h-[300px] sm:h-[350px]">
+                        
+                        <!-- Krásna animovaná SVG grafika - Ekologické zadržiavanie vody -->
+                        <div class="w-full h-full relative bg-sky-50 flex items-center justify-center overflow-hidden">
+                            <svg viewBox="0 0 400 300" class="w-full h-full transition-transform duration-700 group-hover:scale-105" preserveAspectRatio="xMidYMid slice">
+                                <defs>
+                                    <linearGradient id="skyGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                                        <stop offset="0%" stop-color="#bae6fd" />
+                                        <stop offset="100%" stop-color="#f0f9ff" />
+                                    </linearGradient>
+                                    <linearGradient id="soilGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                                        <stop offset="0%" stop-color="#84cc16" />
+                                        <stop offset="10%" stop-color="#4d7c0f" />
+                                        <stop offset="100%" stop-color="#14532d" />
+                                    </linearGradient>
+                                    <linearGradient id="waterGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                                        <stop offset="0%" stop-color="#38bdf8" />
+                                        <stop offset="100%" stop-color="#0284c7" />
+                                    </linearGradient>
+                                    <style>
+                                        .rain-drop { animation: fall linear infinite; }
+                                        @keyframes fall {
+                                            0% { transform: translate(0, -20px); opacity: 0; }
+                                            20% { opacity: 1; }
+                                            80% { opacity: 1; }
+                                            100% { transform: translate(-10px, 150px); opacity: 0; }
+                                        }
+                                        .cloud-move { animation: floatCloud 8s ease-in-out infinite alternate; }
+                                        @keyframes floatCloud {
+                                            0% { transform: translateX(-10px); }
+                                            100% { transform: translateX(15px); }
+                                        }
+                                        .water-rise { animation: fillTank 5s ease-in-out infinite alternate; transform-origin: bottom; }
+                                        @keyframes fillTank {
+                                            0% { transform: scaleY(0.15); }
+                                            100% { transform: scaleY(0.85); }
+                                        }
+                                        .plant-pulse { animation: breathe 4s ease-in-out infinite alternate; transform-origin: bottom; }
+                                        @keyframes breathe {
+                                            0% { transform: scale(0.9) rotate(-3deg); }
+                                            100% { transform: scale(1.1) rotate(3deg); }
+                                        }
+                                    </style>
+                                </defs>
+
+                                <!-- Obloha -->
+                                <rect width="400" height="300" fill="url(#skyGrad)" />
+                                <!-- Slnko -->
+                                <circle cx="340" cy="60" r="30" fill="#fef08a" opacity="0.8" />
+
+                                <!-- Zem -->
+                                <rect x="0" y="210" width="400" height="90" fill="url(#soilGrad)" />
+
+                                <!-- Dom (Silueta) -->
+                                <polygon points="20,130 110,70 200,130" fill="#475569" />
+                                <rect x="40" y="130" width="140" height="80" fill="#cbd5e1" />
+                                <rect x="120" y="150" width="25" height="60" fill="#94a3b8" />
+                                <rect x="60" y="150" width="35" height="25" fill="#f1f5f9" />
+
+                                <!-- Odkvapový systém -->
+                                <path d="M 15 135 L 205 135" stroke="#334155" stroke-width="6" stroke-linecap="round" />
+                                <path d="M 195 135 L 195 230 L 240 230" stroke="#334155" stroke-width="8" fill="none" stroke-linejoin="round" />
+
+                                <!-- Podzemná nádrž LASTER -->
+                                <rect x="220" y="220" width="90" height="70" rx="8" fill="#1e293b" />
+                                <rect x="250" y="200" width="30" height="20" fill="#1e293b" />
+                                <path d="M 245 200 L 285 200" stroke="#0f172a" stroke-width="4" stroke-linecap="round" />
+
+                                <!-- Voda v nádrži (Animovaná) -->
+                                <rect x="225" y="225" width="80" height="60" rx="5" fill="#0f172a" />
+                                <g transform="translate(225, 285)">
+                                    <rect x="0" y="-60" width="80" height="60" rx="4" fill="url(#waterGrad)" class="water-rise" />
+                                </g>
+
+                                <!-- Prítok vody z odkvapu -->
+                                <path d="M 240 230 L 240 280" stroke="#38bdf8" stroke-width="3" stroke-dasharray="6 4" class="rain-drop" style="animation-duration: 0.8s;" />
+
+                                <!-- Rastlinka (Ekológia) -->
+                                <g class="plant-pulse" transform="translate(340, 210)">
+                                    <path d="M 0 0 Q -5 -15 0 -30 Q 5 -15 0 0" fill="#4d7c0f" />
+                                    <path d="M 0 -5 Q -15 -10 -20 -25 Q -5 -20 0 -5" fill="#65a30d" />
+                                    <path d="M 0 -10 Q 15 -15 20 -30 Q 5 -25 0 -10" fill="#65a30d" />
+                                </g>
+
+                                <!-- Oblak 1 -->
+                                <g class="cloud-move">
+                                    <circle cx="80" cy="50" r="25" fill="#ffffff" opacity="0.9" />
+                                    <circle cx="110" cy="40" r="35" fill="#ffffff" opacity="0.9" />
+                                    <circle cx="140" cy="50" r="25" fill="#ffffff" opacity="0.9" />
+                                    <rect x="80" y="50" width="60" height="25" fill="#ffffff" opacity="0.9" />
+                                </g>
+
+                                <!-- Oblak 2 -->
+                                <g class="cloud-move" style="animation-delay: -4s;">
+                                    <circle cx="210" cy="70" r="20" fill="#f8fafc" opacity="0.8" />
+                                    <circle cx="240" cy="60" r="30" fill="#f8fafc" opacity="0.8" />
+                                    <circle cx="270" cy="70" r="20" fill="#f8fafc" opacity="0.8" />
+                                    <rect x="210" y="70" width="60" height="20" fill="#f8fafc" opacity="0.8" />
+                                </g>
+
+                                <!-- Dážď z oblaku 1 -->
+                                <g stroke="#7dd3fc" stroke-width="2" stroke-linecap="round">
+                                    <line x1="90" y1="80" x2="85" y2="95" class="rain-drop" style="animation-duration: 1.2s; animation-delay: 0s;" />
+                                    <line x1="110" y1="90" x2="105" y2="105" class="rain-drop" style="animation-duration: 1.5s; animation-delay: 0.4s;" />
+                                    <line x1="130" y1="80" x2="125" y2="95" class="rain-drop" style="animation-duration: 1.1s; animation-delay: 0.2s;" />
+                                    <line x1="150" y1="90" x2="145" y2="105" class="rain-drop" style="animation-duration: 1.3s; animation-delay: 0.6s;" />
+                                    <line x1="100" y1="70" x2="95" y2="85" class="rain-drop" style="animation-duration: 1.4s; animation-delay: 0.8s;" />
+                                    <line x1="120" y1="75" x2="115" y2="90" class="rain-drop" style="animation-duration: 1.2s; animation-delay: 0.3s;" />
+                                </g>
+
+                                <!-- Dážď z oblaku 2 -->
+                                <g stroke="#7dd3fc" stroke-width="2" stroke-linecap="round">
+                                    <line x1="220" y1="100" x2="215" y2="115" class="rain-drop" style="animation-duration: 1.3s; animation-delay: 0.1s;" />
+                                    <line x1="240" y1="110" x2="235" y2="125" class="rain-drop" style="animation-duration: 1.1s; animation-delay: 0.5s;" />
+                                    <line x1="260" y1="100" x2="255" y2="115" class="rain-drop" style="animation-duration: 1.4s; animation-delay: 0.7s;" />
+                                </g>
+                            </svg>
+                        </div>
+
+                        <!-- Tmavý prechod a Text (Ostávajú nezmenené) -->
+                        <div class="absolute inset-0 bg-gradient-to-t from-dark/80 via-dark/20 to-transparent flex items-end p-6 pointer-events-none">
                             <span class="text-white font-bold text-xl drop-shadow-md">Ekologické zadržiavanie vody</span>
                         </div>
                     </div>
