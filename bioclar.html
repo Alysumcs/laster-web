@@ -28,7 +28,6 @@
         }
     </script>
     <style>
-        /* Vlastný kurzor */
         body { cursor: none; }
         .custom-cursor {
             position: fixed; top: 0; left: 0; width: 20px; height: 20px;
@@ -46,13 +45,11 @@
         .gsap-hidden { visibility: hidden; }
         .magnetic-btn { display: inline-block; }
         
-        /* Tooltipy pre SVG */
         .hotspot-tooltip {
             opacity: 0; visibility: hidden; transform: translateY(10px); transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
         .hotspot:hover .hotspot-tooltip { opacity: 1; visibility: visible; transform: translateY(0); }
         
-        /* Animácia pre aeráciu v SVG */
         @keyframes bubbleRise {
             0% { transform: translateY(0) scale(1); opacity: 0; }
             50% { opacity: 0.8; }
@@ -67,7 +64,7 @@
     <div class="custom-cursor-dot hidden md:block"></div>
     <div id="progress-bar" class="fixed top-0 left-0 h-1 bg-gradient-to-r from-secondary to-primary z-[60] w-0"></div>
 
-    <!-- Navigácia (OPRAVENÁ) -->
+    <!-- Navigácia -->
     <nav class="bg-white/80 backdrop-blur-md shadow-sm fixed w-full z-50 top-0 border-b border-slate-100">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-20">
@@ -82,8 +79,9 @@
                     <a href="nadrze.html" class="text-slate-600 hover:text-secondary transition font-medium interactive-hover">Nádrže</a>
                     <a href="sachty.html" class="text-slate-600 hover:text-secondary transition font-medium interactive-hover">Šachty</a>
                     <a href="#" class="text-secondary transition font-bold interactive-hover">Čistiarne BIOCLAR</a>
-                    <div class="magnetic-btn">
-                        <a href="index.html#kontakt" class="bg-dark text-white px-6 py-2.5 rounded-full hover:bg-slate-800 transition font-medium block">Kontakt</a>
+                    <div class="magnetic-btn relative">
+                        <span class="absolute inset-0 rounded-full bg-slate-500 opacity-20 animate-ping" style="animation-duration: 2.5s;"></span>
+                        <a href="index.html#kontakt" class="relative z-10 bg-dark text-white px-6 py-2.5 rounded-full hover:bg-slate-800 transition font-medium block">Kontakt</a>
                     </div>
                 </div>
                 <div class="flex items-center md:hidden">
@@ -100,12 +98,18 @@
                 <a href="nadrze.html" class="block px-3 py-2 text-slate-600 hover:bg-slate-50 hover:text-secondary rounded-md">Nádrže</a>
                 <a href="sachty.html" class="block px-3 py-2 text-slate-600 hover:bg-slate-50 hover:text-secondary rounded-md">Šachty</a>
                 <a href="#" class="block px-3 py-2 text-secondary font-bold hover:bg-slate-50 rounded-md">Čistiarne BIOCLAR (Aktuálne)</a>
-                <a href="index.html#kontakt" class="block px-3 py-2 text-slate-600 hover:bg-slate-50 hover:text-secondary rounded-md">Kontakt</a>
+                <a href="index.html#kontakt" class="flex items-center justify-between px-3 py-2 text-slate-600 hover:bg-slate-50 hover:text-secondary rounded-md">
+                    <span>Kontakt</span>
+                    <span class="relative flex h-2.5 w-2.5">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-secondary opacity-75" style="animation-duration: 2s;"></span>
+                        <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-secondary"></span>
+                    </span>
+                </a>
             </div>
         </div>
     </nav>
 
-    <!-- Page Header s Eko dizajnom -->
+    <!-- Page Header -->
     <section class="pt-32 pb-16 bg-emerald-950 text-white relative overflow-hidden">
         <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(#10b981 1px, transparent 1px); background-size: 30px 30px;"></div>
         <div class="absolute inset-0 bg-gradient-to-t from-emerald-950 to-transparent"></div>
@@ -126,7 +130,6 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
                 
-                <!-- Textová časť pre 3D rez -->
                 <div class="order-2 lg:order-1 product-text gsap-hidden">
                     <h2 class="text-3xl lg:text-4xl font-bold text-dark mb-6">Ako funguje technológia BIOCLAR?</h2>
                     <p class="text-slate-600 mb-8 text-lg">
@@ -152,42 +155,26 @@
                     </div>
                 </div>
 
-                <!-- 3D SVG Ilustrácia prierezu čističky -->
                 <div class="order-1 lg:order-2 tank-card relative w-full h-[400px] lg:h-[500px] flex justify-center items-center group interactive-hover">
                     <svg viewBox="0 0 400 450" class="w-full h-full drop-shadow-2xl transition-transform duration-500 group-hover:scale-105" preserveAspectRatio="xMidYMid meet">
-                        <!-- Zadná stena -->
                         <path d="M 50 150 L 50 350 A 150 60 0 0 0 350 350 L 350 150 A 150 60 0 0 1 50 150 Z" fill="#e2e8f0"/>
                         <path d="M 60 150 L 60 340 A 140 55 0 0 0 340 340 L 340 150 A 140 55 0 0 1 60 150 Z" fill="#cbd5e1"/>
-
-                        <!-- Rez nádržou -->
                         <polygon points="50,150 60,150 60,340 50,350" fill="#f8fafc"/>
                         <polygon points="340,150 350,150 350,350 340,340" fill="#94a3b8"/>
-
-                        <!-- Stredový hranol -->
                         <polygon points="180,180 220,180 220,380 180,380" fill="#e2e8f0"/>
                         <polygon points="220,180 240,160 240,360 220,380" fill="#cbd5e1"/>
                         <polygon points="180,180 220,180 240,160 200,160" fill="#64748b"/>
-
-                        <!-- Deliace steny -->
                         <polygon points="60,180 180,180 180,380 60,340" fill="#f1f5f9"/>
                         <polygon points="60,150 180,150 180,180 60,180" fill="#e2e8f0"/>
                         <polygon points="80,190 140,190 140,200 80,200" fill="#475569"/>
-
                         <polygon points="220,180 340,180 340,340 220,380" fill="#cbd5e1"/>
                         <polygon points="220,150 340,150 340,180 220,180" fill="#f8fafc"/>
-
                         <polygon points="240,160 300,105 300,300 240,360" fill="#94a3b8"/>
-                        
-                        <!-- Potrubia -->
                         <path d="M 220 165 L 180 185 L 175 180 L 215 160 Z" fill="#ffffff"/>
                         <path d="M 300 130 C 310 100, 330 110, 330 140" fill="none" stroke="#f8fafc" stroke-width="4"/>
                         <path d="M 290 135 C 310 110, 320 120, 320 145" fill="none" stroke="#e2e8f0" stroke-width="4"/>
-
-                        <!-- Hnedá zóna -->
                         <path d="M 60 220 C 100 240, 140 240, 180 220 L 180 380 L 60 340 Z" fill="#452710" opacity="0.85"/>
                         <path d="M 60 220 C 100 250, 140 240, 180 220 C 140 200, 100 200, 60 220 Z" fill="#5c3415" opacity="0.9"/>
-                        
-                        <!-- Bublinky -->
                         <g>
                             <circle cx="100" cy="330" r="3" class="svg-bubble" style="animation-delay: 0s;"/>
                             <circle cx="120" cy="350" r="4" class="svg-bubble" style="animation-delay: 0.5s;"/>
@@ -196,20 +183,12 @@
                             <circle cx="110" cy="310" r="4" class="svg-bubble" style="animation-delay: 1.5s;"/>
                             <circle cx="150" cy="340" r="2" class="svg-bubble" style="animation-delay: 0.2s;"/>
                         </g>
-
-                        <!-- Modrá zóna -->
                         <path d="M 60 170 C 100 190, 140 180, 180 160 L 180 180 C 140 200, 100 200, 60 180 Z" fill="#0369a1" opacity="0.9"/>
                         <path d="M 60 170 C 100 140, 140 130, 180 160 C 140 180, 100 190, 60 170 Z" fill="#0284c7" opacity="0.9"/>
-
-                        <!-- Hnedá zóna vpravo -->
                         <path d="M 220 220 C 260 240, 300 240, 340 220 L 340 340 L 220 380 Z" fill="#452710" opacity="0.85"/>
                         <path d="M 220 220 C 260 200, 300 200, 340 220 C 300 240, 260 250, 220 220 Z" fill="#5c3415" opacity="0.9"/>
-
-                        <!-- Časť veka -->
                         <path d="M 50 150 C 120 100, 280 100, 350 150 L 340 150 C 270 110, 130 110, 60 150 Z" fill="#ffffff"/>
                     </svg>
-
-                    <!-- Interaktívne body -->
                     <div class="hotspot absolute top-[60%] left-[30%] z-30 cursor-pointer">
                         <div class="relative flex items-center justify-center w-8 h-8">
                             <span class="absolute inline-flex h-full w-full rounded-full bg-amber-500 opacity-75 animate-ping"></span>
@@ -220,7 +199,6 @@
                             <p class="text-slate-500 text-xs">Biologický rozklad pomocou vločiek kalu a kyslíka.</p>
                         </div>
                     </div>
-
                     <div class="hotspot absolute top-[30%] left-[25%] z-30 cursor-pointer">
                         <div class="relative flex items-center justify-center w-8 h-8">
                             <span class="absolute inline-flex h-full w-full rounded-full bg-primary opacity-75 animate-ping" style="animation-delay: 0.5s;"></span>
@@ -231,7 +209,6 @@
                             <p class="text-slate-500 text-xs">Usadený kal sa oddeľuje a priezračná voda odteká von.</p>
                         </div>
                     </div>
-
                     <div class="hotspot absolute top-[25%] right-[25%] z-30 cursor-pointer">
                         <div class="relative flex items-center justify-center w-8 h-8">
                             <span class="absolute inline-flex h-full w-full rounded-full bg-slate-400 opacity-75 animate-ping" style="animation-delay: 1s;"></span>
@@ -248,83 +225,124 @@
         </div>
     </section>
 
-    <!-- Top View SVG Section -->
-    <section class="py-20 bg-slate-50 border-y border-slate-200">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center flex-col-reverse lg:flex-row">
-                
-                <div id="animated-bioclar-top" class="relative w-full h-[350px] flex justify-center items-center group interactive-hover gsap-hidden">
-                    <svg viewBox="0 0 300 350" class="w-full h-full drop-shadow-xl transition-transform duration-500 group-hover:scale-105" preserveAspectRatio="xMidYMid meet">
-                        <path d="M 50 150 L 50 280 A 100 40 0 0 0 250 280 L 250 150 Z" fill="#e2e8f0" class="bioclar-outer"/>
-                        <ellipse cx="150" cy="150" rx="100" ry="40" fill="#cbd5e1" class="bioclar-outer"/>
-                        <ellipse cx="150" cy="150" rx="95" ry="38" fill="#f8fafc" class="bioclar-outer"/>
-                        
-                        <polygon points="140,140 160,140 160,260 140,260" fill="#94a3b8" class="bioclar-center"/>
-                        <polygon points="140,140 160,140 170,130 150,130" fill="#475569" class="bioclar-center"/>
-
-                        <line x1="140" y1="140" x2="60" y2="135" stroke="#e2e8f0" stroke-width="4" class="bioclar-inner-wall"/>
-                        <line x1="160" y1="140" x2="240" y2="135" stroke="#e2e8f0" stroke-width="4" class="bioclar-inner-wall"/>
-                        <line x1="140" y1="260" x2="80" y2="175" stroke="#e2e8f0" stroke-width="4" class="bioclar-inner-wall"/>
-                        <line x1="160" y1="260" x2="220" y2="175" stroke="#e2e8f0" stroke-width="4" class="bioclar-inner-wall"/>
-
-                        <path d="M 155 135 L 190 120 M 150 135 L 150 90" stroke="#ffffff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" class="bioclar-pipes"/>
-                        <circle cx="150" cy="80" r="10" fill="#e2e8f0" class="bioclar-pipes"/>
-                        <circle cx="150" cy="80" r="6" fill="#f8fafc" class="bioclar-pipes"/>
-                    </svg>
-                    <div class="absolute inset-0 bg-gradient-to-t from-slate-50/50 to-transparent pointer-events-none"></div>
-                </div>
-
-                <div class="product-text gsap-hidden">
-                    <h2 class="text-3xl font-bold text-dark mb-4">Pevnosť a kvalita materiálu</h2>
-                    <p class="text-slate-600 mb-6 leading-relaxed">
-                        Nádrže čistiarní BIOCLAR sú vyrábané z hrubostenného, 100% zváraného bieleho polypropylénu (PP). 
-                        Vnútorné rozdeľovacie priečky nielenže vytvárajú jednotlivé technologické zóny, ale zároveň slúžia ako <strong>pevnostné výstuhy</strong> celej konštrukcie.
-                    </p>
-                    <ul class="space-y-3">
-                        <li class="flex items-center gap-3 text-slate-700"><i data-lucide="check-circle" class="text-secondary h-5 w-5"></i> Monolitická samonosná konštrukcia</li>
-                        <li class="flex items-center gap-3 text-slate-700"><i data-lucide="check-circle" class="text-secondary h-5 w-5"></i> Nízka hmotnosť uľahčuje inštaláciu bez žeriavu</li>
-                        <li class="flex items-center gap-3 text-slate-700"><i data-lucide="check-circle" class="text-secondary h-5 w-5"></i> Bez rizika korózie a presakovania do pôdy</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <!-- Prečo si vybrať BIOCLAR (Kartičky) -->
-    <section class="py-24 bg-white relative z-20">
+    <section class="py-24 bg-slate-50 relative z-20">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16 gsap-scroll-fade gsap-hidden">
                 <h2 class="text-sm font-bold text-secondary tracking-widest uppercase mb-2">Výhody technológie</h2>
                 <h3 class="text-3xl md:text-4xl font-bold text-dark">Prečo sú čistiarne BIOCLAR najlepšou voľbou?</h3>
             </div>
             <div class="feature-cards-container grid grid-cols-1 md:grid-cols-4 gap-6">
-                <div class="feature-card gsap-hidden p-6 rounded-3xl bg-emerald-50/50 border border-emerald-100 hover:shadow-xl hover:-translate-y-2 transition-all duration-300 interactive-hover group">
-                    <div class="w-14 h-14 bg-white shadow-sm border border-emerald-100 text-secondary rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                <div class="feature-card gsap-hidden p-6 rounded-3xl bg-white border border-slate-100 hover:shadow-xl hover:-translate-y-2 transition-all duration-300 interactive-hover group">
+                    <div class="w-14 h-14 bg-emerald-50 border border-emerald-100 text-secondary rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                         <i data-lucide="activity" class="h-7 w-7"></i>
                     </div>
                     <h3 class="font-bold mb-2 text-dark">Účinnosť nad 95%</h3>
                     <p class="text-slate-600 text-sm">Vysoká čistota odtokovej vody umožňuje jej bezpečné vypúšťanie do trativodu, či využitie na závlahu drevín.</p>
                 </div>
-                <div class="feature-card gsap-hidden p-6 rounded-3xl bg-emerald-50/50 border border-emerald-100 hover:shadow-xl hover:-translate-y-2 transition-all duration-300 interactive-hover group">
-                    <div class="w-14 h-14 bg-white shadow-sm border border-emerald-100 text-secondary rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                <div class="feature-card gsap-hidden p-6 rounded-3xl bg-white border border-slate-100 hover:shadow-xl hover:-translate-y-2 transition-all duration-300 interactive-hover group">
+                    <div class="w-14 h-14 bg-emerald-50 border border-emerald-100 text-secondary rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                         <i data-lucide="volume-x" class="h-7 w-7"></i>
                     </div>
                     <h3 class="font-bold mb-2 text-dark">Žiadny zápach a hluk</h3>
                     <p class="text-slate-600 text-sm">Technológia aeróbneho čistenia eliminuje hnilobné procesy, takže okolie čistiarne nepáchne a chod membránového dúchadla je mimoriadne tichý.</p>
                 </div>
-                <div class="feature-card gsap-hidden p-6 rounded-3xl bg-emerald-50/50 border border-emerald-100 hover:shadow-xl hover:-translate-y-2 transition-all duration-300 interactive-hover group">
-                    <div class="w-14 h-14 bg-white shadow-sm border border-emerald-100 text-secondary rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                <div class="feature-card gsap-hidden p-6 rounded-3xl bg-white border border-slate-100 hover:shadow-xl hover:-translate-y-2 transition-all duration-300 interactive-hover group">
+                    <div class="w-14 h-14 bg-emerald-50 border border-emerald-100 text-secondary rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                         <i data-lucide="piggy-bank" class="h-7 w-7"></i>
                     </div>
                     <h3 class="font-bold mb-2 text-dark">Obrovská úspora financií</h3>
                     <p class="text-slate-600 text-sm">Investícia sa vám rýchlo vráti vďaka tomu, že odpadá nutnosť neustáleho a drahého vyťahovania klasickej žumpy fekálnym vozom.</p>
                 </div>
-                <div class="feature-card gsap-hidden p-6 rounded-3xl bg-emerald-50/50 border border-emerald-100 hover:shadow-xl hover:-translate-y-2 transition-all duration-300 interactive-hover group">
-                    <div class="w-14 h-14 bg-white shadow-sm border border-emerald-100 text-secondary rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                <div class="feature-card gsap-hidden p-6 rounded-3xl bg-white border border-slate-100 hover:shadow-xl hover:-translate-y-2 transition-all duration-300 interactive-hover group">
+                    <div class="w-14 h-14 bg-emerald-50 border border-emerald-100 text-secondary rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                         <i data-lucide="file-check-2" class="h-7 w-7"></i>
                     </div>
                     <h3 class="font-bold mb-2 text-dark">Certifikácia a normy</h3>
                     <p class="text-slate-600 text-sm">Čistiarne spĺňajú najprísnejšie normy Európskej Únie a bez problémov vám prejdú kolaudáciou stavebného úradu.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Naše realizácie (Slider pre Čistiarne - 11 fotiek) -->
+    <section class="py-20 bg-white border-t border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 gsap-scroll-fade gsap-hidden">
+                <h2 class="text-sm font-bold text-secondary tracking-widest uppercase mb-2">Galéria</h2>
+                <h3 class="text-3xl md:text-4xl font-bold text-dark">Realizácie čistiarní BIOCLAR</h3>
+                <p class="text-slate-600 max-w-2xl mx-auto mt-4">Od prípravy jamy až po zelený trávnik. Pozrite si, ako prebieha osadenie našej čistiarne odpadových vôd v praxi.</p>
+            </div>
+
+            <div class="relative w-full max-w-5xl mx-auto overflow-hidden rounded-[2rem] shadow-2xl group gsap-scroll-fade gsap-hidden border border-slate-100 bg-slate-50">
+                <!-- Slider Container pre 11 fotiek -->
+                <div id="realizacie-slider" class="flex transition-transform duration-700 ease-in-out h-[300px] sm:h-[400px] lg:h-[500px]">
+                    <div class="w-full h-full shrink-0 relative">
+                        <img src="cov1.png" onerror="this.src='https://images.unsplash.com/photo-1541888053155-2747190013b0?auto=format&fit=crop&q=80&w=1200'" class="w-full h-full object-cover" alt="ČOV 1">
+                        <div class="absolute inset-0 bg-gradient-to-t from-dark/60 to-transparent flex items-end p-8"><span class="text-white font-bold text-xl sm:text-2xl drop-shadow-md">Dovoz čistiarne BIOCLAR</span></div>
+                    </div>
+                    <div class="w-full h-full shrink-0 relative">
+                        <img src="cov2.png" onerror="this.src='https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&q=80&w=1200'" class="w-full h-full object-cover" alt="ČOV 2">
+                        <div class="absolute inset-0 bg-gradient-to-t from-dark/60 to-transparent flex items-end p-8"><span class="text-white font-bold text-xl sm:text-2xl drop-shadow-md">Príprava výkopu a podložia</span></div>
+                    </div>
+                    <div class="w-full h-full shrink-0 relative">
+                        <img src="cov3.png" onerror="this.src='https://images.unsplash.com/photo-1585704032915-c3400ca199e7?auto=format&fit=crop&q=80&w=1200'" class="w-full h-full object-cover" alt="ČOV 3">
+                        <div class="absolute inset-0 bg-gradient-to-t from-dark/60 to-transparent flex items-end p-8"><span class="text-white font-bold text-xl sm:text-2xl drop-shadow-md">Spustenie čistiarne do jamy</span></div>
+                    </div>
+                    <div class="w-full h-full shrink-0 relative">
+                        <img src="cov4.png" onerror="this.src='https://images.unsplash.com/photo-1584486520270-19eca1efcce5?auto=format&fit=crop&q=80&w=1200'" class="w-full h-full object-cover" alt="ČOV 4">
+                        <div class="absolute inset-0 bg-gradient-to-t from-dark/60 to-transparent flex items-end p-8"><span class="text-white font-bold text-xl sm:text-2xl drop-shadow-md">Vyrovnanie a stabilizácia</span></div>
+                    </div>
+                    <div class="w-full h-full shrink-0 relative">
+                        <img src="cov5.png" onerror="this.src='https://images.unsplash.com/photo-1541888053155-2747190013b0?auto=format&fit=crop&q=80&w=1200'" class="w-full h-full object-cover" alt="ČOV 5">
+                        <div class="absolute inset-0 bg-gradient-to-t from-dark/60 to-transparent flex items-end p-8"><span class="text-white font-bold text-xl sm:text-2xl drop-shadow-md">Napojenie na kanalizáciu</span></div>
+                    </div>
+                    <div class="w-full h-full shrink-0 relative">
+                        <img src="cov6.png" onerror="this.src='https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&q=80&w=1200'" class="w-full h-full object-cover" alt="ČOV 6">
+                        <div class="absolute inset-0 bg-gradient-to-t from-dark/60 to-transparent flex items-end p-8"><span class="text-white font-bold text-xl sm:text-2xl drop-shadow-md">Postupný obsyp a dopúšťanie vody</span></div>
+                    </div>
+                    <div class="w-full h-full shrink-0 relative">
+                        <img src="cov7.png" onerror="this.src='https://images.unsplash.com/photo-1585704032915-c3400ca199e7?auto=format&fit=crop&q=80&w=1200'" class="w-full h-full object-cover" alt="ČOV 7">
+                        <div class="absolute inset-0 bg-gradient-to-t from-dark/60 to-transparent flex items-end p-8"><span class="text-white font-bold text-xl sm:text-2xl drop-shadow-md">Inštalácia dúchadla a rozvodov</span></div>
+                    </div>
+                    <div class="w-full h-full shrink-0 relative">
+                        <img src="cov8.png" onerror="this.src='https://images.unsplash.com/photo-1584486520270-19eca1efcce5?auto=format&fit=crop&q=80&w=1200'" class="w-full h-full object-cover" alt="ČOV 8">
+                        <div class="absolute inset-0 bg-gradient-to-t from-dark/60 to-transparent flex items-end p-8"><span class="text-white font-bold text-xl sm:text-2xl drop-shadow-md">Pohľad dovnútra počas prevádzky</span></div>
+                    </div>
+                    <div class="w-full h-full shrink-0 relative">
+                        <img src="cov9.png" onerror="this.src='https://images.unsplash.com/photo-1541888053155-2747190013b0?auto=format&fit=crop&q=80&w=1200'" class="w-full h-full object-cover" alt="ČOV 9">
+                        <div class="absolute inset-0 bg-gradient-to-t from-dark/60 to-transparent flex items-end p-8"><span class="text-white font-bold text-xl sm:text-2xl drop-shadow-md">Zapojenie riadiacej jednotky</span></div>
+                    </div>
+                    <div class="w-full h-full shrink-0 relative">
+                        <img src="cov10.png" onerror="this.src='https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&q=80&w=1200'" class="w-full h-full object-cover" alt="ČOV 10">
+                        <div class="absolute inset-0 bg-gradient-to-t from-dark/60 to-transparent flex items-end p-8"><span class="text-white font-bold text-xl sm:text-2xl drop-shadow-md">Finálne terénne úpravy</span></div>
+                    </div>
+                    <div class="w-full h-full shrink-0 relative">
+                        <img src="cov11.png" onerror="this.src='https://images.unsplash.com/photo-1585704032915-c3400ca199e7?auto=format&fit=crop&q=80&w=1200'" class="w-full h-full object-cover" alt="ČOV 11">
+                        <div class="absolute inset-0 bg-gradient-to-t from-dark/60 to-transparent flex items-end p-8"><span class="text-white font-bold text-xl sm:text-2xl drop-shadow-md">Odovzdanie do užívania</span></div>
+                    </div>
+                </div>
+
+                <button id="slider-prev" class="absolute left-4 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white text-secondary p-3 rounded-full shadow-lg backdrop-blur-sm transition-all interactive-hover opacity-0 group-hover:opacity-100 focus:opacity-100 z-20">
+                    <i data-lucide="chevron-left" class="h-6 w-6"></i>
+                </button>
+                <button id="slider-next" class="absolute right-4 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white text-secondary p-3 rounded-full shadow-lg backdrop-blur-sm transition-all interactive-hover opacity-0 group-hover:opacity-100 focus:opacity-100 z-20">
+                    <i data-lucide="chevron-right" class="h-6 w-6"></i>
+                </button>
+
+                <!-- Indikátory Slideru (11 fotiek) -->
+                <div class="absolute bottom-4 sm:bottom-6 left-0 right-0 flex flex-wrap justify-center gap-2 sm:gap-3 z-10 px-4">
+                    <button class="slider-dot w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-white transition-all shadow-md interactive-hover scale-125" data-index="0"></button>
+                    <button class="slider-dot w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-white/50 hover:bg-white transition-all shadow-md interactive-hover" data-index="1"></button>
+                    <button class="slider-dot w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-white/50 hover:bg-white transition-all shadow-md interactive-hover" data-index="2"></button>
+                    <button class="slider-dot w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-white/50 hover:bg-white transition-all shadow-md interactive-hover" data-index="3"></button>
+                    <button class="slider-dot w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-white/50 hover:bg-white transition-all shadow-md interactive-hover" data-index="4"></button>
+                    <button class="slider-dot w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-white/50 hover:bg-white transition-all shadow-md interactive-hover" data-index="5"></button>
+                    <button class="slider-dot w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-white/50 hover:bg-white transition-all shadow-md interactive-hover" data-index="6"></button>
+                    <button class="slider-dot w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-white/50 hover:bg-white transition-all shadow-md interactive-hover" data-index="7"></button>
+                    <button class="slider-dot w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-white/50 hover:bg-white transition-all shadow-md interactive-hover" data-index="8"></button>
+                    <button class="slider-dot w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-white/50 hover:bg-white transition-all shadow-md interactive-hover" data-index="9"></button>
+                    <button class="slider-dot w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-white/50 hover:bg-white transition-all shadow-md interactive-hover" data-index="10"></button>
                 </div>
             </div>
         </div>
@@ -414,18 +432,71 @@
                 gsap.from(row, { scrollTrigger: { trigger: row, start: "top 85%" }, y: 40, opacity: 0, duration: 0.8, ease: "power3.out" });
             });
 
-            const topViewTl = gsap.timeline({ scrollTrigger: { trigger: "#animated-bioclar-top", start: "top 80%" }});
-            topViewTl.from("#animated-bioclar-top", { y: 40, opacity: 0, duration: 0.6, ease: "power3.out" })
-                     .from(".bioclar-outer", { scale: 0.9, opacity: 0, transformOrigin: "center", duration: 0.6, ease: "back.out(1.2)" })
-                     .from(".bioclar-center", { scaleY: 0, opacity: 0, transformOrigin: "center", duration: 0.5, ease: "back.out(1.5)" }, "-=0.3")
-                     .from(".bioclar-inner-wall", { opacity: 0, duration: 0.3, stagger: 0.1 }, "-=0.2")
-                     .from(".bioclar-pipes", { opacity: 0, y: -20, duration: 0.4, stagger: 0.1, ease: "bounce.out" }, "-=0.2");
-
             gsap.from(".feature-card", { scrollTrigger: { trigger: ".feature-cards-container", start: "top 85%" }, y: 50, opacity: 0, duration: 0.8, stagger: 0.15, ease: "power3.out" });
 
             gsap.utils.toArray('.gsap-scroll-fade').forEach((element) => {
                 gsap.from(element, { scrollTrigger: { trigger: element, start: "top 85%" }, y: 40, opacity: 0, duration: 0.8, ease: "power2.out" });
             });
+
+            // Slider logika pre BIOCLAR
+            const slider = document.getElementById('realizacie-slider');
+            if (slider) {
+                const prevBtn = document.getElementById('slider-prev');
+                const nextBtn = document.getElementById('slider-next');
+                const dots = document.querySelectorAll('.slider-dot');
+                let slideIndex = 0;
+                const totalSlides = dots.length; 
+                let slideInterval;
+
+                function updateSlider() {
+                    slider.style.transform = `translateX(-${slideIndex * 100}%)`;
+                    dots.forEach((dot, idx) => {
+                        if (idx === slideIndex) {
+                            dot.classList.add('bg-white', 'scale-125');
+                            dot.classList.remove('bg-white/50');
+                        } else {
+                            dot.classList.remove('bg-white', 'scale-125');
+                            dot.classList.add('bg-white/50');
+                        }
+                    });
+                }
+
+                function nextSlide() {
+                    slideIndex = (slideIndex + 1) % totalSlides;
+                    updateSlider();
+                }
+
+                function prevSlide() {
+                    slideIndex = (slideIndex - 1 + totalSlides) % totalSlides;
+                    updateSlider();
+                }
+
+                function startSlider() {
+                    slideInterval = setInterval(nextSlide, 4000);
+                }
+
+                function stopSlider() {
+                    clearInterval(slideInterval);
+                }
+
+                nextBtn.addEventListener('click', () => { nextSlide(); stopSlider(); startSlider(); });
+                prevBtn.addEventListener('click', () => { prevSlide(); stopSlider(); startSlider(); });
+                
+                dots.forEach(dot => {
+                    dot.addEventListener('click', (e) => {
+                        slideIndex = parseInt(e.target.dataset.index);
+                        updateSlider();
+                        stopSlider();
+                        startSlider();
+                    });
+                });
+
+                slider.parentElement.addEventListener('mouseenter', stopSlider);
+                slider.parentElement.addEventListener('mouseleave', startSlider);
+                
+                updateSlider();
+                startSlider();
+            }
         });
     </script>
 </body>
