@@ -28,7 +28,6 @@
         }
     </script>
     <style>
-        /* Vlastný kurzor prevzatý z hlavnej stránky */
         body { cursor: none; }
         .custom-cursor {
             position: fixed; top: 0; left: 0; width: 20px; height: 20px;
@@ -46,7 +45,6 @@
         .gsap-hidden { visibility: hidden; }
         .magnetic-btn { display: inline-block; }
 
-        /* Animácie pre Blueprint SVG (Príprava na mieru) */
         @keyframes spin-slow { 100% { transform: rotate(360deg); } }
         .animate-spin-slow { animation: spin-slow 8s linear infinite; }
         
@@ -60,7 +58,7 @@
     <div class="custom-cursor-dot hidden md:block"></div>
     <div id="progress-bar" class="fixed top-0 left-0 h-1 bg-gradient-to-r from-primary to-secondary z-[60] w-0"></div>
 
-    <!-- Navigácia (OPRAVENÁ) -->
+    <!-- Navigácia -->
     <nav class="bg-white/80 backdrop-blur-md shadow-sm fixed w-full z-50 top-0 border-b border-slate-100">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-20">
@@ -75,8 +73,9 @@
                     <a href="nadrze.html" class="text-slate-600 hover:text-primary transition font-medium interactive-hover">Nádrže</a>
                     <a href="#" class="text-primary transition font-bold interactive-hover">Šachty</a>
                     <a href="bioclar.html" class="text-slate-600 hover:text-secondary transition font-medium interactive-hover">Čistiarne BIOCLAR</a>
-                    <div class="magnetic-btn">
-                        <a href="index.html#kontakt" class="bg-dark text-white px-6 py-2.5 rounded-full hover:bg-slate-800 transition font-medium block">Kontakt</a>
+                    <div class="magnetic-btn relative">
+                        <span class="absolute inset-0 rounded-full bg-slate-500 opacity-20 animate-ping" style="animation-duration: 2.5s;"></span>
+                        <a href="index.html#kontakt" class="relative z-10 bg-dark text-white px-6 py-2.5 rounded-full hover:bg-slate-800 transition font-medium block">Kontakt</a>
                     </div>
                 </div>
                 <div class="flex items-center md:hidden">
@@ -93,7 +92,13 @@
                 <a href="nadrze.html" class="block px-3 py-2 text-slate-600 hover:bg-slate-50 hover:text-primary rounded-md">Nádrže</a>
                 <a href="#" class="block px-3 py-2 text-primary font-bold hover:bg-slate-50 rounded-md">Šachty (Aktuálne)</a>
                 <a href="bioclar.html" class="block px-3 py-2 text-slate-600 hover:bg-slate-50 hover:text-primary rounded-md">Čistiarne BIOCLAR</a>
-                <a href="index.html#kontakt" class="block px-3 py-2 text-slate-600 hover:bg-slate-50 hover:text-primary rounded-md">Kontakt</a>
+                <a href="index.html#kontakt" class="flex items-center justify-between px-3 py-2 text-slate-600 hover:bg-slate-50 hover:text-primary rounded-md">
+                    <span>Kontakt</span>
+                    <span class="relative flex h-2.5 w-2.5">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75" style="animation-duration: 2s;"></span>
+                        <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-primary"></span>
+                    </span>
+                </a>
             </div>
         </div>
     </nav>
@@ -116,7 +121,7 @@
         </div>
     </section>
 
-    <!-- Typy šácht (SVG Sekcia) -->
+    <!-- Typy šácht -->
     <section class="py-20 bg-slate-50 border-b border-slate-200">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16 gsap-scroll-fade gsap-hidden">
@@ -127,7 +132,7 @@
 
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
                 
-                <!-- 1. Valcová vodomerná šachta -->
+                <!-- 1. Valcová -->
                 <div class="tank-card bg-white p-8 rounded-[2rem] shadow-lg border border-slate-100 flex flex-col items-center text-center gsap-hidden interactive-hover group hover:-translate-y-2 hover:shadow-2xl transition-all duration-300">
                     <div class="w-full h-64 mb-6 relative flex items-center justify-center">
                         <svg viewBox="0 0 300 350" class="w-full h-full drop-shadow-2xl transition-transform duration-500 group-hover:scale-105" preserveAspectRatio="xMidYMid meet">
@@ -166,22 +171,15 @@
                     </div>
                 </div>
 
-                <!-- 2. Hranatá šachta -->
+                <!-- 2. Hranatá -->
                 <div class="tank-card bg-white p-8 rounded-[2rem] shadow-lg border border-slate-100 flex flex-col items-center text-center gsap-hidden interactive-hover group relative overflow-hidden hover:-translate-y-2 hover:shadow-2xl transition-all duration-300">
                     <div class="w-full h-64 mb-6 relative flex items-center justify-center">
                         <svg viewBox="-20 -20 340 340" class="w-full h-full drop-shadow-2xl transition-transform duration-500 group-hover:scale-105" preserveAspectRatio="xMidYMid meet">
-                            <!-- Základná doska pre obetónovanie -->
                             <polygon points="150,290 10,220 150,150 290,220" fill="#0a0d14"/>
-
-                            <!-- Ľavá stena -->
                             <polygon points="150,275 25,210 25,90 150,155" fill="#161e2b"/>
-                            <!-- Pravá stena -->
                             <polygon points="150,275 275,210 275,90 150,155" fill="#0f151e"/>
-                            <!-- Vrchná doska -->
                             <polygon points="150,160 20,90 150,25 280,90" fill="#1b2433"/>
                             <polygon points="150,155 25,90 150,30 275,90" fill="#243045"/>
-
-                            <!-- X Výstuhy -->
                             <g stroke-linecap="butt">
                                 <line x1="25" y1="90" x2="150" y2="275" stroke="#0f151e" stroke-width="14"/>
                                 <line x1="25" y1="90" x2="150" y2="275" stroke="#243045" stroke-width="5"/>
@@ -194,14 +192,10 @@
                                 <line x1="150" y1="275" x2="275" y2="90" stroke="#0a0d14" stroke-width="14"/>
                                 <line x1="150" y1="275" x2="275" y2="90" stroke="#1b2433" stroke-width="5"/>
                             </g>
-
-                            <!-- Vrchné rebrá -->
                             <polygon points="65,70 190,130 190,115 65,55" fill="#141a24"/>
                             <polygon points="105,50 230,110 230,95 105,35" fill="#141a24"/>
                             <polygon points="190,50 65,110 65,95 190,35" fill="#1b2433"/>
                             <polygon points="230,70 105,130 105,115 230,55" fill="#1b2433"/>
-
-                            <!-- Komín s vekom (Opravený) -->
                             <path d="M 190 40 L 190 85 A 25 10 0 0 0 240 85 L 240 40 Z" fill="#0d111a"/>
                             <path d="M 187 30 L 187 40 A 28 12 0 0 0 243 40 L 243 30 Z" fill="#161e2b"/>
                             <ellipse cx="215" cy="30" rx="28" ry="12" fill="#243045"/>
@@ -216,7 +210,7 @@
                     </div>
                 </div>
 
-                <!-- 3. Závlahová / Prečerpávacia šachta -->
+                <!-- 3. Závlahová -->
                 <div class="tank-card bg-white p-8 rounded-[2rem] shadow-lg border border-slate-100 flex flex-col items-center text-center gsap-hidden interactive-hover group hover:-translate-y-2 hover:shadow-2xl transition-all duration-300">
                     <div class="w-full h-64 mb-6 relative flex items-center justify-center">
                         <svg viewBox="0 0 300 300" class="w-full h-full drop-shadow-2xl transition-transform duration-500 group-hover:scale-105" preserveAspectRatio="xMidYMid meet">
@@ -231,13 +225,10 @@
                             </defs>
                             <ellipse cx="150" cy="260" rx="115" ry="18" fill="#000000" opacity="0.6"/>
                             <ellipse cx="150" cy="258" rx="110" ry="16" fill="#121822"/>
-
                             <path d="M 40 100 L 40 258 A 110 16 0 0 0 260 258 L 260 100 Z" fill="url(#zavlGrad)"/>
-                            
                             <path d="M 30 85 L 30 105 A 120 20 0 0 0 270 105 L 270 85 Z" fill="#0d121c"/>
                             <ellipse cx="150" cy="85" rx="120" ry="20" fill="#1c2536"/>
                             <ellipse cx="150" cy="83" rx="118" ry="19" fill="#2d3b4e" opacity="0.4"/>
-                            
                             <path d="M 30 85 Q 150 115 270 85" fill="none" stroke="#374860" stroke-width="1.5" opacity="0.5"/>
                         </svg>
                     </div>
@@ -296,8 +287,6 @@
                 
                 <div class="order-1 lg:order-2 gsap-scroll-fade gsap-hidden">
                     <div class="rounded-3xl overflow-hidden shadow-2xl relative group interactive-hover h-[400px] lg:h-[500px] bg-slate-900 border-4 border-slate-800 flex items-center justify-center">
-                        
-                        <!-- Technický Blueprint SVG -->
                         <svg viewBox="0 0 400 400" class="w-full h-full drop-shadow-2xl">
                             <defs>
                                 <pattern id="blueprint-grid" width="40" height="40" patternUnits="userSpaceOnUse">
@@ -310,10 +299,8 @@
                             </defs>
                             <rect width="100%" height="100%" fill="url(#blueprintGrad)" />
                             <rect width="100%" height="100%" fill="url(#blueprint-grid)" />
-                            
                             <path d="M 100 140 L 100 320 A 100 20 0 0 0 300 320 L 300 140 Z" fill="#1e293b" stroke="#3b82f6" stroke-width="2" opacity="0.6"/>
                             <ellipse cx="200" cy="140" rx="100" ry="20" fill="#0f172a" stroke="#3b82f6" stroke-width="2" opacity="0.8"/>
-                            
                             <path d="M 160 70 L 160 140 A 40 8 0 0 0 240 140 L 240 70 Z" fill="#1e293b" stroke="#3b82f6" stroke-width="2" opacity="0.6"/>
                             <ellipse cx="200" cy="70" rx="40" ry="8" fill="#0f172a" stroke="#3b82f6" stroke-width="2" opacity="0.8"/>
                             
@@ -332,17 +319,14 @@
                                 <line x1="0" y1="-35" x2="0" y2="35" stroke="#10b981" stroke-width="1.5" opacity="0.6"/>
                                 <circle cx="0" cy="0" r="4" fill="#10b981" />
                             </g>
-
                             <path d="M 10 220 L 100 220" stroke="#3b82f6" stroke-width="6" stroke-dasharray="12 8" class="animate-flow-fast" opacity="0.8"/>
                             <path d="M 300 280 L 390 280" stroke="#3b82f6" stroke-width="6" stroke-dasharray="12 8" class="animate-flow-fast" opacity="0.8"/>
-
                             <text x="25" y="190" fill="#10b981" font-family="monospace" font-size="13" font-weight="bold">INLET_VAR_H</text>
                             <text x="260" y="330" fill="#10b981" font-family="monospace" font-size="13" font-weight="bold">OUTLET_VAR_H</text>
                             <text x="245" y="65" fill="#3b82f6" font-family="monospace" font-size="11" opacity="0.7">Ø 600mm</text>
                         </svg>
 
                         <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-transparent z-10 pointer-events-none"></div>
-
                         <div class="absolute bottom-6 left-6 right-6 bg-white/95 backdrop-blur-sm p-5 rounded-2xl shadow-xl z-20 border border-slate-100">
                             <p class="font-bold text-dark flex items-center gap-2">
                                 <i data-lucide="info" class="text-primary h-5 w-5"></i>
@@ -351,6 +335,84 @@
                             <p class="text-sm text-slate-600 mt-1">Pri výrobe zohľadníme presnú polohu nátoku a výtoku.</p>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Naše realizácie (Slider pre Šachty - 10 fotiek) -->
+    <section class="py-20 bg-slate-50 border-t border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 gsap-scroll-fade gsap-hidden">
+                <h2 class="text-sm font-bold text-primary tracking-widest uppercase mb-2">Galéria</h2>
+                <h3 class="text-3xl md:text-4xl font-bold text-dark">Realizácie šácht</h3>
+                <p class="text-slate-600 max-w-2xl mx-auto mt-4">Pozrite si ukážky z inštalácií a osadení našich plastových šácht do terénu.</p>
+            </div>
+
+            <div class="relative w-full max-w-5xl mx-auto overflow-hidden rounded-[2rem] shadow-2xl group gsap-scroll-fade gsap-hidden border border-slate-100 bg-white">
+                <!-- Slider Container pre 10 fotiek -->
+                <div id="realizacie-slider" class="flex transition-transform duration-700 ease-in-out h-[300px] sm:h-[400px] lg:h-[500px]">
+                    <div class="w-full h-full shrink-0 relative">
+                        <img src="sachta1.png" onerror="this.src='https://images.unsplash.com/photo-1541888053155-2747190013b0?auto=format&fit=crop&q=80&w=1200'" class="w-full h-full object-cover" alt="Šachta 1">
+                        <div class="absolute inset-0 bg-gradient-to-t from-dark/60 to-transparent flex items-end p-8"><span class="text-white font-bold text-xl sm:text-2xl drop-shadow-md">Osadenie vodomernej šachty</span></div>
+                    </div>
+                    <div class="w-full h-full shrink-0 relative">
+                        <img src="sachta2.png" onerror="this.src='https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&q=80&w=1200'" class="w-full h-full object-cover" alt="Šachta 2">
+                        <div class="absolute inset-0 bg-gradient-to-t from-dark/60 to-transparent flex items-end p-8"><span class="text-white font-bold text-xl sm:text-2xl drop-shadow-md">Príprava výkopu</span></div>
+                    </div>
+                    <div class="w-full h-full shrink-0 relative">
+                        <img src="sachta3.png" onerror="this.src='https://images.unsplash.com/photo-1585704032915-c3400ca199e7?auto=format&fit=crop&q=80&w=1200'" class="w-full h-full object-cover" alt="Šachta 3">
+                        <div class="absolute inset-0 bg-gradient-to-t from-dark/60 to-transparent flex items-end p-8"><span class="text-white font-bold text-xl sm:text-2xl drop-shadow-md">Vloženie šachty do jamy</span></div>
+                    </div>
+                    <div class="w-full h-full shrink-0 relative">
+                        <img src="sachta4.png" onerror="this.src='https://images.unsplash.com/photo-1584486520270-19eca1efcce5?auto=format&fit=crop&q=80&w=1200'" class="w-full h-full object-cover" alt="Šachta 4">
+                        <div class="absolute inset-0 bg-gradient-to-t from-dark/60 to-transparent flex items-end p-8"><span class="text-white font-bold text-xl sm:text-2xl drop-shadow-md">Obsyp šachty zeminou</span></div>
+                    </div>
+                    <div class="w-full h-full shrink-0 relative">
+                        <img src="sachta5.png" onerror="this.src='https://images.unsplash.com/photo-1541888053155-2747190013b0?auto=format&fit=crop&q=80&w=1200'" class="w-full h-full object-cover" alt="Šachta 5">
+                        <div class="absolute inset-0 bg-gradient-to-t from-dark/60 to-transparent flex items-end p-8"><span class="text-white font-bold text-xl sm:text-2xl drop-shadow-md">Detail napojenia potrubia</span></div>
+                    </div>
+                    <div class="w-full h-full shrink-0 relative">
+                        <img src="sachta6.png" onerror="this.src='https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&q=80&w=1200'" class="w-full h-full object-cover" alt="Šachta 6">
+                        <div class="absolute inset-0 bg-gradient-to-t from-dark/60 to-transparent flex items-end p-8"><span class="text-white font-bold text-xl sm:text-2xl drop-shadow-md">Uloženie hranatej šachty</span></div>
+                    </div>
+                    <div class="w-full h-full shrink-0 relative">
+                        <img src="sachta7.png" onerror="this.src='https://images.unsplash.com/photo-1585704032915-c3400ca199e7?auto=format&fit=crop&q=80&w=1200'" class="w-full h-full object-cover" alt="Šachta 7">
+                        <div class="absolute inset-0 bg-gradient-to-t from-dark/60 to-transparent flex items-end p-8"><span class="text-white font-bold text-xl sm:text-2xl drop-shadow-md">Závlahová šachta v teréne</span></div>
+                    </div>
+                    <div class="w-full h-full shrink-0 relative">
+                        <img src="sachta8.png" onerror="this.src='https://images.unsplash.com/photo-1584486520270-19eca1efcce5?auto=format&fit=crop&q=80&w=1200'" class="w-full h-full object-cover" alt="Šachta 8">
+                        <div class="absolute inset-0 bg-gradient-to-t from-dark/60 to-transparent flex items-end p-8"><span class="text-white font-bold text-xl sm:text-2xl drop-shadow-md">Zásyp a nivelácia</span></div>
+                    </div>
+                    <div class="w-full h-full shrink-0 relative">
+                        <img src="sachta9.png" onerror="this.src='https://images.unsplash.com/photo-1541888053155-2747190013b0?auto=format&fit=crop&q=80&w=1200'" class="w-full h-full object-cover" alt="Šachta 9">
+                        <div class="absolute inset-0 bg-gradient-to-t from-dark/60 to-transparent flex items-end p-8"><span class="text-white font-bold text-xl sm:text-2xl drop-shadow-md">Dokončená inštalácia</span></div>
+                    </div>
+                    <div class="w-full h-full shrink-0 relative">
+                        <img src="sachta10.png" onerror="this.src='https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&q=80&w=1200'" class="w-full h-full object-cover" alt="Šachta 10">
+                        <div class="absolute inset-0 bg-gradient-to-t from-dark/60 to-transparent flex items-end p-8"><span class="text-white font-bold text-xl sm:text-2xl drop-shadow-md">Finálny detail komína a veka</span></div>
+                    </div>
+                </div>
+
+                <button id="slider-prev" class="absolute left-4 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white text-primary p-3 rounded-full shadow-lg backdrop-blur-sm transition-all interactive-hover opacity-0 group-hover:opacity-100 focus:opacity-100 z-20">
+                    <i data-lucide="chevron-left" class="h-6 w-6"></i>
+                </button>
+                <button id="slider-next" class="absolute right-4 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white text-primary p-3 rounded-full shadow-lg backdrop-blur-sm transition-all interactive-hover opacity-0 group-hover:opacity-100 focus:opacity-100 z-20">
+                    <i data-lucide="chevron-right" class="h-6 w-6"></i>
+                </button>
+
+                <!-- Indikátory Slideru (10 fotiek) -->
+                <div class="absolute bottom-4 sm:bottom-6 left-0 right-0 flex flex-wrap justify-center gap-2 sm:gap-3 z-10 px-4">
+                    <button class="slider-dot w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-white transition-all shadow-md interactive-hover scale-125" data-index="0"></button>
+                    <button class="slider-dot w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-white/50 hover:bg-white transition-all shadow-md interactive-hover" data-index="1"></button>
+                    <button class="slider-dot w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-white/50 hover:bg-white transition-all shadow-md interactive-hover" data-index="2"></button>
+                    <button class="slider-dot w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-white/50 hover:bg-white transition-all shadow-md interactive-hover" data-index="3"></button>
+                    <button class="slider-dot w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-white/50 hover:bg-white transition-all shadow-md interactive-hover" data-index="4"></button>
+                    <button class="slider-dot w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-white/50 hover:bg-white transition-all shadow-md interactive-hover" data-index="5"></button>
+                    <button class="slider-dot w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-white/50 hover:bg-white transition-all shadow-md interactive-hover" data-index="6"></button>
+                    <button class="slider-dot w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-white/50 hover:bg-white transition-all shadow-md interactive-hover" data-index="7"></button>
+                    <button class="slider-dot w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-white/50 hover:bg-white transition-all shadow-md interactive-hover" data-index="8"></button>
+                    <button class="slider-dot w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-white/50 hover:bg-white transition-all shadow-md interactive-hover" data-index="9"></button>
                 </div>
             </div>
         </div>
@@ -394,7 +456,6 @@
     <script>
         lucide.createIcons();
 
-        // Mobilné menu
         const btn = document.getElementById('mobile-menu-btn');
         const menu = document.getElementById('mobile-menu');
         btn.addEventListener('click', () => menu.classList.toggle('hidden'));
@@ -402,7 +463,6 @@
             link.addEventListener('click', () => menu.classList.add('hidden'));
         });
 
-        // Kurzor
         const cursor = document.querySelector('.custom-cursor');
         const cursorDot = document.querySelector('.custom-cursor-dot');
         const hoverElements = document.querySelectorAll('.interactive-hover, a, button');
@@ -418,7 +478,6 @@
             });
         }
 
-        // Magnetické tlačidlá
         const magneticBtns = document.querySelectorAll('.magnetic-btn');
         magneticBtns.forEach(btn => {
             btn.addEventListener('mousemove', (e) => {
@@ -432,7 +491,6 @@
             });
         });
 
-        // GSAP Animácie
         document.addEventListener("DOMContentLoaded", () => {
             gsap.registerPlugin(ScrollTrigger);
 
@@ -440,24 +498,75 @@
 
             gsap.set(".gsap-hidden", { autoAlpha: 1, visibility: "visible" });
 
-            // Hlavička
             gsap.from(".page-header-content > *", { y: 30, opacity: 0, duration: 0.8, stagger: 0.2, ease: "power3.out", delay: 0.2 });
 
-            // SVG Karty so šachtami
             gsap.utils.toArray('.tank-card').forEach((row) => {
-                gsap.from(row, {
-                    scrollTrigger: { trigger: row, start: "top 85%" },
-                    y: 40, opacity: 0, duration: 0.8, ease: "power3.out"
-                });
+                gsap.from(row, { scrollTrigger: { trigger: row, start: "top 85%" }, y: 40, opacity: 0, duration: 0.8, ease: "power3.out" });
             });
 
-            // Ostatné karty a texty
             gsap.utils.toArray('.gsap-scroll-fade').forEach((element) => {
-                gsap.from(element, {
-                    scrollTrigger: { trigger: element, start: "top 85%" },
-                    y: 40, opacity: 0, duration: 0.8, ease: "power2.out"
-                });
+                gsap.from(element, { scrollTrigger: { trigger: element, start: "top 85%" }, y: 40, opacity: 0, duration: 0.8, ease: "power2.out" });
             });
+
+            // Slider logika pre Šachty
+            const slider = document.getElementById('realizacie-slider');
+            if (slider) {
+                const prevBtn = document.getElementById('slider-prev');
+                const nextBtn = document.getElementById('slider-next');
+                const dots = document.querySelectorAll('.slider-dot');
+                let slideIndex = 0;
+                const totalSlides = dots.length; 
+                let slideInterval;
+
+                function updateSlider() {
+                    slider.style.transform = `translateX(-${slideIndex * 100}%)`;
+                    dots.forEach((dot, idx) => {
+                        if (idx === slideIndex) {
+                            dot.classList.add('bg-white', 'scale-125');
+                            dot.classList.remove('bg-white/50');
+                        } else {
+                            dot.classList.remove('bg-white', 'scale-125');
+                            dot.classList.add('bg-white/50');
+                        }
+                    });
+                }
+
+                function nextSlide() {
+                    slideIndex = (slideIndex + 1) % totalSlides;
+                    updateSlider();
+                }
+
+                function prevSlide() {
+                    slideIndex = (slideIndex - 1 + totalSlides) % totalSlides;
+                    updateSlider();
+                }
+
+                function startSlider() {
+                    slideInterval = setInterval(nextSlide, 4000);
+                }
+
+                function stopSlider() {
+                    clearInterval(slideInterval);
+                }
+
+                nextBtn.addEventListener('click', () => { nextSlide(); stopSlider(); startSlider(); });
+                prevBtn.addEventListener('click', () => { prevSlide(); stopSlider(); startSlider(); });
+                
+                dots.forEach(dot => {
+                    dot.addEventListener('click', (e) => {
+                        slideIndex = parseInt(e.target.dataset.index);
+                        updateSlider();
+                        stopSlider();
+                        startSlider();
+                    });
+                });
+
+                slider.parentElement.addEventListener('mouseenter', stopSlider);
+                slider.parentElement.addEventListener('mouseleave', startSlider);
+                
+                updateSlider();
+                startSlider();
+            }
         });
     </script>
 </body>
